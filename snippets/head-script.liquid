@@ -1,0 +1,46 @@
+{% include 'google-fonts' %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+{{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+{{ 'ss_custom.js' | asset_url | script_tag }}
+{{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+{{ 'style-theme.scss.css' | asset_url | stylesheet_tag }}
+{{ 'style-sections.scss.css' | asset_url | stylesheet_tag }}
+{{ 'style-config.scss.css' | asset_url | stylesheet_tag }}
+{{ 'style-respon.scss.css' | asset_url | stylesheet_tag }}
+{{ 'animate.css' | asset_url | stylesheet_tag }}
+
+{{ 'jquery-cookie.min.js' | asset_url | script_tag }}
+{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+{{ 'owl.carousel.min.css' | asset_url | stylesheet_tag }}
+{{ 'jquery.elevateZoom.min.js' | asset_url | script_tag }}
+{{ 'libs.js' | asset_url | script_tag }}
+{{ 'bootstrap.min.js' | asset_url | script_tag }}
+
+{{ 'wish-list.js' | asset_url | script_tag }}
+{% if template contains 'customers' %}
+{{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+{% endif %}
+<!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lte IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lte IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
+{% if template.directory == 'customers' %}
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+{% endif %}
+
+<script>
+  window.money_format = '{{shop.money_with_currency_format}}';
+</script>
+
+
+
+
+
+
+
+

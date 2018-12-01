@@ -1,0 +1,33 @@
+
+
+{% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+<div class="collection-wrap">
+  <div class="collection-img">
+    <a href="{{ collection.url }}" title="{{ collection_title }}">
+      {% if collection.image %}
+      {{ collection.image.src | collection_img_url: 'large' | img_tag: collection_title }}
+      {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </a>
+    <div class="figcaption">
+      <div class="block-table">
+        <p class="block-table-cell"><a href="{{ collection.url }}" class="btn collection">{{ 'collections.sorting.show_now' | t }}</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="collection-info a-center">
+    <div class="collection-title">
+      <a class="collection-name" href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">
+        {% if collection.title == blank %}
+        {{ 'homepage.onboarding.collection_title' | t }}
+        {% else %}
+        {{ collection.title }}
+        {% endif %}
+      </a>
+      <p class="count-products">{{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}</p>
+      <p class="desc">{{ collection.description | strip_html | truncatewords: 14 }}</p>
+
+    </div>
+  </div>
+</div>

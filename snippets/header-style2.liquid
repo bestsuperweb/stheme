@@ -1,0 +1,185 @@
+{% section 'header' %}
+<header id="header" class="header header1-wrap header-style2{% if settings.header_float_enable %} header-fixed{% endif %}">
+  {% if settings.display_header_top %}
+  <div class="header-top compad_hidden">
+    <div class="container">
+      <div class="row"> 
+        <div class="header-top-left form-inline col-lg-6 col-md-6 col-sm-6 hidden-xs">
+          <p>{{ settings.top }}</p>
+        </div>        
+        <div class="header-top-right collapsed-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+          <div class="toplinks-wrapper">
+          <div class="form-group navbar-welcome ">
+            <ul class="welcome-msg">
+              {% if shop.customer_accounts_optional or shop.customer_accounts_enabled %}
+              {% capture fullname %}{{ customer.first_name }} {{ customer.last_name }}{% endcapture %}
+              {% assign login_html = 'layout.header.login_html' | t:fullname:fullname %}
+              {% assign logout = 'layout.header.signout' | t %}
+              {% assign login = 'layout.header.signin' | t %}
+              {% assign register = 'layout.header.joinfree' | t %}
+              {% if customer  %}
+              <li>{{ logout | customer_logout_link }}</li>
+              <li><a class="account" rel="nofollow" href="/account">{{ login_html }}</a></li>
+            <li class="wishlist"><a href="/pages/wishlist" title="">{{ 'layout.customer.wishlist' | t }}</a></li>
+            <li class="checkout"><a  href="/checkout">{{ 'layout.customer.checkout' | t }}</a></li>
+
+              {% else %}
+              <li>{{ login | customer_login_link }}</li>
+            <li class="wishlist"><a href="/pages/wishlist" title="">{{ 'layout.customer.wishlist' | t }}</a></li>
+            <li class="checkout"><a  href="/checkout">{{ 'layout.customer.checkout' | t }}</a></li>
+
+              {% endif %}
+              {% endif %}
+            </ul>
+          </div> 
+          </div>
+        </div>       
+      </div>
+      </div>
+  </div>
+  {% endif %}
+  <div class="header-center">
+    <div class="container">
+        <div class="row wrap-flex">
+        <div class="col-xs-7 header-top-right">
+		  {% include "language-theme" %}
+          {% include "currency-picker" %}          
+          </div>
+        <div class="col-md-4 hidden-sm hidden-xs">
+          <div class="pull">
+              <div class="site-header-logo" itemscope itemtype="http://schema.org/Organization">
+
+                {% if settings.logo and settings.logo_img %}
+                <a href="/" itemprop="url" class="site-header-logo-image">
+                  {% capture image_size %}{{ settings.logo_max_width }}x{% endcapture %}
+                  <img src="{{ settings.logo | img_url: image_size }}"
+                       srcset="{{ settings.logo | img_url: image_size }}"
+                       alt="{{ settings.logo.alt | default: shop.name }}"
+                       itemprop="logo">
+                </a>
+                {% else %}
+                <a class="site-header-logo-link" href="/" itemprop="url">{{ settings.logo_text }}</a>
+                {% endif %}
+              </div>
+          </div> 
+        </div>
+        <div class="col-xs-5 header-sub">
+            <div class="search-headers">
+              <div class="ss-search">
+                <form class="formSearch" action="/search" method="get">
+                  <input type="hidden" name="type" value="product">
+                  <input class="form-control" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off" />
+                  <button class="btn btn-search" type="submit" >
+                    <span class="btnSearchText hidden-sm hidden-xs">{{ 'general.search.search' | t }}</span>
+                    <i class="fa fa-search"></i>
+                  </button>
+                  <div class="btn btn-search-fake" >
+                    <i class="fa fa-search"></i>
+                  </div>
+                </form>
+              </div>
+            </div> 
+           <div class="minicart-header">
+            <a href="/cart" class="site-header__carts shopcart dropdown-toggle">
+              <span class="handle pull-left">
+                <i class="fa fa-shopping-cart icon"></i>
+                <span class="total-shopping-cart cart-total-full">
+                  <span id="CartCount" class="cout_cart">{{ cart.item_count }}</span>
+                </span>
+              </span>
+              <span class="cart-title hidden-sm hidden-xs">{{ 'layout.cart.title_cart' | t }}</span>
+              <span class="cart-total hidden-sm hidden-xs">
+                <span id="CartTotal"  class="total_cart">{{ cart.total_price | money }}</span>
+              </span>
+            </a>
+            <div class="block-content dropdown-content" style="display: none;">
+              <div class="no-items">
+                <p>{{ 'layout.cart.empty' | t }}</p>
+                <p class="text-continue btn"><a href="/">{{ 'layout.cart.continue_shopping' | t }}</a></p>
+              </div>
+              <div class="block-inner has-items">
+                <div class="head-minicart">
+                  <span class="label-products">{{ 'layout.cart.title_your_products' | t }}</span>
+                  <span class="label-price">{{ 'layout.cart.title_price' | t }}</span>
+                </div>
+                <ol id="minicart-sidebar" class="mini-products-list">
+                  {% for item in cart.items %}
+                  <li class="item" data-product_id="{{ item.id }}">
+                    <div class="product-img-wrap">
+                      <a href="{{item.url}}" class="product-image">
+                        <img src="{{ item.image | product_img_url: 'small' }}" alt="{{item.title}}">
+                      </a>
+                      <a href="javascript:void(0)"  title="Remove This Item" class="btn-remove">&nbsp;</a>
+                    </div>
+                    <div class="product-details">
+                      <div class="inner-left">
+                        <p class="product-name">
+                          <a href="{{item.url}}">{{ item.product.title }}</a>
+                        </p>
+                        {% if item.product.variants.size != 0 %}
+                        <div class="option">
+                          {% unless item.variant.title contains 'Default' %}
+                          <small>{{ item.variant.title }}</small>
+                          {% endunless %}
+                        </div>
+                        {% endif %}
+                        <div class="product-details-bottom">
+                          <span class="title-desc">{{ 'layout.cart.title_quantity' | t }}</span>
+                          <strong>{{item.quantity}}</strong>
+                        </div>
+                      </div>
+                      <div class="product-price">
+                        <span class="price">{{item.price | money}}</span>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ol>
+                <div class="bottom-action actions">
+                  <div class="price-total-w">										
+                    <span class="label-price-total">{{ 'layout.cart.title_subtotal' | t }}</span> 
+                    <span class="price-total"><span class="price">{{cart.total_price | money}}</span></span>				
+                    <div style="clear:both;"></div>	
+                  </div>
+                  <div class="button-wrapper">
+                    <a href="/cart" class="link-button btn-gotocart" title="{{ 'layout.cart.title_view_your_cart' | t }}">{{ 'layout.cart.title_go_to_cart' | t }}</a>
+                    <a href="/checkout" class="link-button btn-checkout" title="{{ 'layout.cart.title_checkout' | t }}">{{ 'layout.cart.title_checkout' | t }}</a>
+                    <div style="clear:both;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>         
+        </div>
+    </div>
+    </div>
+  </div>
+  <div class="header-bottom">
+    <div class="logo-mobile hidden-md hidden-lg">
+          <div class="pull">
+              <div class="site-header-logo" itemscope itemtype="http://schema.org/Organization">
+
+                {% if settings.logo and settings.logo_img %}
+                <a href="/" itemprop="url" class="site-header-logo-image">
+                  {% capture image_size %}{{ settings.logo_max_width }}x{% endcapture %}
+                  <img src="{{ settings.logo | img_url: image_size }}"
+                       srcset="{{ settings.logo | img_url: image_size }}"
+                       alt="{{ settings.logo.alt | default: shop.name }}"
+                       itemprop="logo">
+                </a>
+                {% else %}
+                <a class="site-header-logo-link" href="/" itemprop="url">{{ settings.logo_text }}</a>
+                {% endif %}
+              </div>
+          </div> 
+      </div>
+    <div class="main-menu">  
+      <div class="container">
+        <div class="horizontal_menu">
+          {% section 'ss-mainmenu' %}
+        </div>      
+      </div>
+    </div>     
+  </div>
+  
+</header>

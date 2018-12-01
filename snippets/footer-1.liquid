@@ -1,0 +1,116 @@
+{%- assign ft-col1 = section.settings.footer_co1_enable -%}
+{%- assign ft-col2 = section.settings.footer_co2_enable -%}
+{%- assign ft-col3 = section.settings.footer_co3_enable -%}
+{%- assign ft-col4 = section.settings.footer_co4_enable -%}
+
+<div class="footer-1">
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-wrapper">
+        <div class="row">
+          {% if ft-col1 %}
+          <div class="col-md-3 col-sm-6 col-xxs-6 col-xs-12 about-store footer-box">
+            <div class="footer-block">
+              {% if section.settings.footer_title_1 != blank %}
+
+              <h3 class="footer-block-title">{{ section.settings.footer_title_1 | split: '|' | first }}</h3>
+
+              {% endif %}
+              {%- assign footer_linklist = section.settings.footer_linklist -%}
+              <ul class="footer-block-content">
+                {% for link in linklists[footer_linklist].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>					
+          </div>
+          {% endif %}
+          {% if ft-col2 %}
+          <div class="col-md-3 col-sm-6 col-xxs-6  col-xs-12 customer-services footer-box">
+            <div class="footer-block">
+              {% if section.settings.footer_title_2 != blank %}
+
+              <h3 class="footer-block-title">{{ section.settings.footer_title_2 | split: '|' | first }}</h3>
+
+              {% endif %}
+              {%- assign footer_linklist_2 = section.settings.footer_linklist_2 -%}
+              <ul class="footer-block-content">
+                {% for link in linklists[footer_linklist_2].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>					
+          </div>
+          {% endif %}
+          {% if ft-col3 %}
+          <div class="col-md-3 col-sm-6 col-xxs-6 col-xs-12 payment-shipping footer-box">
+            <div class="footer-block">
+              {% if section.settings.footer_title_3 != blank %}
+              <h3 class="footer-block-title"> {{ section.settings.footer_title_3 | split: '|' | first }}</h3>
+              {% endif %}
+              {%- assign footer_linklist_3 = section.settings.footer_linklist_3 -%}
+              <ul class="footer-block-content">
+                {% for link in linklists[footer_linklist_3].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>					
+          </div>
+          {% endif %}
+          {% if ft-col4 %}
+          <div class ="col-md-3 col-sm-6 col-xxs-6  col-xs-12 contact-footer footer-box">
+            <div class="footer-block">
+              <h3 class="footer-block-title">{{ section.settings.footer_contact_title }}</h3>
+              <ul class="footer-links-contact">
+                <li class="address">
+                  <span>{{ section.settings.footer_contact_address }}</span>
+                </li>
+                <li class="email">
+                  <a href="/">
+
+                    <span>{{ section.settings.footer_contact_email }}</span>
+                  </a>
+                </li>
+                <li class="phone">
+                  <span>{{ section.settings.footer_contact_phone }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-center">
+    <div class="container">
+      <div class="footer-wrapper">
+        <div class="categories-footer">
+          {{ section.settings.html_area }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom ">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-7 copyright-footer">
+          <address>{{ section.settings.footer_about | split: '|' | first }}</address>
+        </div>
+        <div class="col-sm-5 text-right payment-ft">
+          {% if section.settings.img_payment_ft != blank %}
+          <img class="img-payment" alt="{{ section.settings.img_payment_ft.alt | default: shop.name }}" src="{{ section.settings.img_payment_ft | img_url: 'master' }}" />
+          {% else %}
+          <img class="img-payment" alt="{{ shop.name }}" src="//placehold.it/287x30" />
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

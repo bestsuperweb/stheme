@@ -1,0 +1,195 @@
+{%- assign ft-col1 = section.settings.footer_co1_enable -%}
+{%- assign ft-col2 = section.settings.footer_co2_enable -%}
+{%- assign ft-col3 = section.settings.footer_co3_enable -%}
+{%- assign ft-col4 = section.settings.footer_co4_enable -%}
+{%- assign ft-col5 = section.settings.footer_co5_enable -%}
+
+<div class="footer-2">
+<!-- 
+  <div class="footer-center"{% unless template contains 'index' %} style="padding-top:20px !important; " {% endunless %}>  
+    <div class="container">
+      {% if section.settings.enable_newsletter %}
+      <div class="newsletter">
+        <div class="row">
+          <div class="wrap col-lg-12">
+            <div class="title-block">
+              {% if section.settings.title != blank %}
+              <label for="Email" class="h2">{{ section.settings.title | escape }}</label>
+              {% endif %}
+              {% if section.settings.subtitle != blank %}
+              <p>{{ section.settings.subtitle | escape }}</p>
+              {% endif %}
+            </div> 
+            <div class="block-content">
+              {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+              <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+              {% else %}
+              <div class="input-group password__input-group">
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="input-box">
+                  <input type="email"
+                         name="contact[email]"
+                         id="Email"
+                         class="input-group__field newsletter__input"
+                         value="{% if customer %}{{ customer.email }}{% endif %}"
+                         placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+
+                         >
+                </div>
+                <span class="input-group__btn">
+                  <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                    <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                  </button>
+                </span>
+              </div>
+              {% endif %}
+              {% endform %}
+            </div>
+          </div>       
+        </div>
+        {% if settings.gotop_enable %}
+        <div id="goToTop" class="{% if settings.gotopmobile_enable %}{% else %}hidden-xs{% endif %}"><span></span></div>
+        {% endif %}        
+      </div>
+      {% endif %}
+    </div> 
+  </div>     -->
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-wrapper row">
+        {% if ft-col1 %}
+        <div class="footer-box about-store col-sm-2">
+          <div class="footer-block">
+            <div class="footer-logo">
+              <div class="site-header-logo" itemscope itemtype="http://schema.org/Organization">
+                {% if section.settings.logo %}
+                <a href="/" itemprop="url" class="site-header-logo-image">
+                  {% capture image_size %}{{ settings.logo_max_width }}x{% endcapture %}
+                  <img src="{{ section.settings.logo | img_url: 'master' }}"
+                       srcset="{{ section.settings.logo | img_url: 'master' }}"
+                       alt="{{ settings.logo.alt | default: shop.name }}"
+                       itemprop="logo" width="100">
+                </a>
+                {% else %}
+                <a class="site-header-logo-link" href="/" itemprop="url">{{ settings.logo_text }}</a>
+                {% endif %}
+              </div>
+            </div>            
+          </div>
+        </div>
+        {% endif %}
+        {% if ft-col2 %}
+        <div class="footer-box customer-services col-sm-2">
+          <div class="footer-block">
+            {% if section.settings.footer_title_2 != blank %}
+
+            <h3 class="footer-block-title">{{ section.settings.footer_title_2 | split: '|' | first }}</h3>
+
+            {% endif %}
+            {%- assign footer_linklist_2 = section.settings.footer_linklist_2 -%}
+            <ul class="footer-block-content">
+              {% for link in linklists[footer_linklist_2].links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>					
+        </div>
+        {% endif %}
+        {% if ft-col3 %}
+        <div class="footer-box payment-shipping col-sm-2 ">
+          <div class="footer-block">
+            {% if section.settings.footer_title_3 != blank %}
+            <h3 class="footer-block-title"> {{ section.settings.footer_title_3 | split: '|' | first }}</h3>
+            {% endif %}
+            {%- assign footer_linklist_3 = section.settings.footer_linklist_3 -%}
+            <ul class="footer-block-content">
+              {% for link in linklists[footer_linklist_3].links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>					
+        </div>
+        {% endif %} 
+        {% if ft-col4 %}
+        <div class="footer-box contact-footer col-sm-2 ">
+          <div class="footer-block">
+            <div class="footer-block">
+              {% if section.settings.footer_title_4 != blank %}
+              <h3 class="footer-block-title"> {{ section.settings.footer_title_4 | split: '|' | first }}</h3>
+              {% endif %}
+              {%- assign footer_linklist_4 = section.settings.footer_linklist_4 -%}
+              <ul class="footer-block-content">
+                {% for link in linklists[footer_linklist_4].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if ft-col5 %}
+        <div class="footer-box contact-footer col-sm-4">
+          <div class="footer-block">
+            <div class="footer-block">
+              {% if section.settings.footer_title_5 != blank %}
+              	<h3 class="footer-block-title"> {{ section.settings.footer_title_5 | split: '|' | first }}</h3>
+              {% endif %}
+              {% if section.settings.footer_textarea_5 != blank %}
+              	<p> {{ section.settings.footer_textarea_5 | split: '|' | first }}</p>
+              {% endif %}
+              {% form 'customer' %}
+              	{{ form.errors | default_errors }}
+                {% if form.posted_successfully? %}
+                  <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                {% else %}
+                  <div class="form-group">
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <input type="text" placeholder="Name" class="form-control newsletter__input" >
+                    <input type="email"
+                      name="contact[email]"
+                      id="Email"
+                      class="form-control newsletter__input"
+                      value="{% if customer %}{{ customer.email }}{% endif %}"
+                      placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                      autocorrect="off"
+                      autocapitalize="off">
+                    <button type="submit" class="btn btn-block newsletter__submit" name="commit" id="Subscribe">
+                        <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                    </button>
+                  </div>
+                {% endif %}
+              {% endform %}
+              
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
+      </div>      
+    </div>
+  </div>
+  <div class="footer-bottom ">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          {% if section.settings.footer_textarea_6 != blank %}
+          <p> {{ section.settings.footer_textarea_6 | split: '|' | first }}</p>
+          {% endif %}
+        </div>
+        <div class="col-sm-4 text-right">
+          {% if section.settings.footer_text_6 != blank %}
+          <p> {{ section.settings.footer_text_6 | split: '|' | first }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

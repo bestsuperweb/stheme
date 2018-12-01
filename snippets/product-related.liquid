@@ -1,0 +1,46 @@
+{% if section.settings.product_related_enable %}
+{% assign column1 = section.settings.column1 | plus:0 %}
+{% assign column2 = section.settings.column2 | plus:0 %}
+{% assign column3 = section.settings.column3 | plus:0 %}
+{% assign column4 = section.settings.column4 | plus:0 %}
+{% assign column5 = section.settings.column5 | plus:0 %}
+{% assign relateCol = 4 %}
+{% assign relateLimit = section.settings.product_related_limit | plus: 0 %}
+{% assign currentProduct = product %}
+{% if collection == null or collection.handle == 'all' %}
+{% assign foundCollection = false %}
+{% for item in product.collections %}
+{% if foundCollection == false and item.handle != 'all' and item.all_products_count > 1 %}
+{% assign foundCollection = true %}
+{% assign collection = item %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if collection and collection.products_count > 1 %}
+<section class="section-related">
+  <div id="related" class="related-products">
+    <h3 class="detail-title"><span>{{ section.settings.product_related_title }}</span></h3>
+    <div class="products-listing grid ss-carousel ss-owl">				
+      <div class="product-layout owl-carousel"
+           data-nav="{{ section.settings.navigation }}"
+           data-margin		="30" 
+           data-lazyLoad		="true"
+           data-column1="	{{ column1 }}" 
+           data-column2="	{{ column2 }}" 
+           data-column3="	{{ column3 }}" 
+           data-column4="	{{ column4 }}" 
+           data-column5="	{{ column5 }}">
+        {% for product in collection.products limit:relateLimit %}
+        {% unless product.handle == currentProduct.handle %}
+        <div class="item">
+          {% include 'product-card-grid' %}
+        </div>
+        {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endif %}
+{% endif %}

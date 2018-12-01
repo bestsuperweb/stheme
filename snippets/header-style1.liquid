@@ -1,0 +1,87 @@
+{% section 'header' %}
+<header id="header" class="header header1-wrap header-style1{% if settings.header_float_enable %} header-fixed{% endif %}">
+  {% if settings.display_header_top %}
+  <div class="header-top compad_hidden">
+    <div class="container">
+      <div class="row">      
+        <div class="header-top-right collapsed-block col-lg-6 col-md-6 col-sm-6 col-xs-6 hidden-xs">
+          <div class="toplinks-wrapper">
+          {% if settings.display_label %}
+          <div class="form-group navbar-welcome ">
+            <ul class="welcome-msg">
+              {% if shop.customer_accounts_optional or shop.customer_accounts_enabled %}
+              {% capture fullname %}{{ customer.first_name }} {{ customer.last_name }}{% endcapture %}
+              {% assign login_html = 'layout.header.login_html' | t:fullname:fullname %}
+              {% assign logout = 'layout.header.signout' | t %}
+              {% assign login = 'layout.header.signin' | t %}
+              {% assign register = 'layout.header.joinfree' | t %}
+              {% if customer  %}
+              <li>{{ logout | customer_logout_link }}</li>
+              <li><a class="account" rel="nofollow" href="/account">{{ login_html }}</a></li>
+            <li class="wishlist"><a href="/pages/wishlist" title="">{{ 'layout.customer.wishlist' | t }}</a></li>
+            <li class="checkout"><a  href="/checkout">{{ 'layout.customer.checkout' | t }}</a></li>
+
+              {% else %}
+              <li>{{ login | customer_login_link }}</li>
+            <li class="wishlist"><a href="/pages/wishlist" title="">{{ 'layout.customer.wishlist' | t }}</a></li>
+            <li class="checkout"><a  href="/checkout">{{ 'layout.customer.checkout' | t }}</a></li>
+
+              {% endif %}
+              {% endif %}
+            </ul>
+          </div> 
+          {% endif %}
+          </div>
+        </div>
+        <div class="header-top-left form-inline col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		  {% include "language-theme" %}
+          {% include "currency-picker" %}
+        </div>       
+      </div>
+      </div>
+  </div>
+  {% endif %}
+  <div class="header-center">
+    <div class="container">
+      
+      {% if template == 'index' %}
+      <h1 class="site-header-logo no-margin" itemscope itemtype="http://schema.org/Organization">
+        {% else %}
+        <div class="site-header-logo" itemscope itemtype="http://schema.org/Organization">
+          {% endif %}
+
+          {% if settings.logo and settings.logo_img %}
+          <a href="/" itemprop="url" class="site-header-logo-image">
+            {% capture image_size %}{{ settings.logo_max_width }}x{% endcapture %}
+            <img src="{{ settings.logo | img_url: image_size }}"
+                 srcset="{{ settings.logo | img_url: image_size }}"
+                 alt="{{ settings.logo.alt | default: shop.name }}"
+                 itemprop="logo"
+                 class="logo-img" >
+            {% if settings.sticky_logo and settings.sticky_logo_img %}
+              {% capture sticky_image_size %}{{ settings.sticky_logo_max_width }}x{% endcapture %}
+              <img src="{{ settings.sticky_logo | img_url: sticky_image_size }}"
+                   srcset="{{ settings.sticky_logo | img_url: sticky_image_size }}"
+                   itemprop="logo" 
+                   class="sticky-logo-img" >
+            {% endif %}
+          </a>
+          {% else %}
+          <a class="site-header-logo-link" href="/" itemprop="url">{{ settings.logo_text }}</a>
+          {% endif %}
+
+          {% if template == 'index' %}
+          </h1>
+        {% else %}
+        </div>
+      {% endif %}            
+                
+   </div>
+  </div>
+  
+  <div class="main-nav main-menu">
+    <div class="container">
+	  	{% section 'ss-mainmenu' %}
+    </div>
+  </div>
+</header>

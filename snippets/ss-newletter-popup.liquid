@@ -1,0 +1,100 @@
+
+{{ 'ss-newletter-popup.js' | asset_url | script_tag }}
+<div id="container-module-newletter" class="hidden-md hidden-sm hidden-xs">
+  	<div class="ss_newletter_custom_popup_bg popup_bg"></div> 
+  	<div class="module main-newsleter-popup ss_newletter_custom_popup ss_newletter_oca_popup" id="ss_newletter_custom_popup">
+      <div class="popup-wraper " style="width: {{ settings.ssnp_width }}px;">
+      	{% if settings.ssnp_show_bgimage %}
+      		<div class="ss-custom-popup ss-custom-oca-popup" {% if settings.ssnp_bgimage %}style="background: url({{settings.ssnp_bgimage | img_url: 'master' }}) no-repeat white;" {% else %}style="background: #f5f5f5;" {% endif %}> 
+    	{% else %}
+            <div class="ss-custom-popup ss-custom-oca-popup" style="width: {{ settings.ssnp_width }}px;"> 
+        {% endif %}
+        <div class="modcontent"> 
+      		<div class="oca_popup" id="test-popup">
+              	<div class="popup-content">
+                  <div class="popup-title"><h3>{{ settings.ssnp_title }}</h3></div>
+                  	<div class="short-description">{{ settings.ssnp_description }}</div>
+                  	{% comment %}
+        			<form method="post" name="signup" class="form-group signup"> 
+          				<div class="input-control">
+                      		<div class="email">
+	                          	<input type="email" placeholder="Your email address..." value="" class="form-control" id="txtemail" name="txtemail">
+                      		</div>
+                      		<button class="btn btn-default" type="submit" onclick="return subscribe_newsletter();" name="submit">Subscribe</button>
+                  		</div>
+        			</form>
+                  	{% endcomment %}
+                  	
+                  	{% if settings.newslettermodal_mailchimp %}
+                  		{% assign form_action = settings.newsletter_formmodal_action %}
+                  		<form action="{{ form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="formNewsletter clearfix">
+                        	<div class="input-group password__input-group">
+                         		<input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="form-control" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                         		<span class="input-group__btn">
+                                  	<button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                                    	<span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                                  	</button>
+                              	</span>
+                        	</div>
+                       	</form>
+                  	{% else %}
+                        {% form 'customer' %}
+                            {{ form.errors | default_errors }}
+                            {% if form.posted_successfully? %}
+                                <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                            {% else %}
+                                <div class="input-group password__input-group">
+                                    <input type="hidden" name="contact[tags]" value="newsletter">
+                                    <input type="email"
+                                        name="contact[email]"
+                                        id="Email"
+                                        class="input-group__field newsletter__input"
+                                        value="{% if customer %}{{ customer.email }}{% endif %}"
+                                        placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                                        autocorrect="off"
+                                        autocapitalize="off">
+                                    <span class="input-group__btn">
+                                        <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                                            <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                                        </button>
+                                    </span>
+                                </div>
+                            {% endif %}
+                        {% endform %}
+                  	{% endif %}	
+                  
+                  	{% if settings.ssnp_show_checkbox and settings.ssnp_checkbox_title != blank %}
+        			<label class="hidden-popup">
+                  		<input type="checkbox" value="1" name="hidden-popup">
+                  		<span class="inline">&nbsp;&nbsp;{{ settings.ssnp_checkbox_title }}</span>
+                	</label>
+                  	{% endif %}
+                  	<div class="socials-popup">
+                      	<ul class="social-list">
+                          	{% if settings.ssnp_show_facebook %}
+                        	<li><a href="{{ settings.ssnp_link_facebook }}" title="title"><i class="fa fa-facebook"></i><span class="hidden">Facebook</span></a></li>
+                          	{% endif %}
+                          	{% if settings.ssnp_show_twitter %}
+                        	<li><a href="{{ settings.ssnp_link_twitter }}" title="title"><i class="fa fa-twitter"></i><span class="hidden">Twitter</span></a></li>
+                        	{% endif %}
+                          	{% if settings.ssnp_show_googleplus %}
+                          	<li><a href="{{ settings.ssnp_link_googleplus }}" title="title"><i class="fa fa-google-plus"></i><span class="hidden">Google</span></a></li>
+                        	{% endif %}
+                            {% if settings.ssnp_show_tumblr %}
+                          	<li><a href="{{ settings.ssnp_link_tumblr }}" title="title"><i class="fa fa-tumblr"></i><span class="hidden">Tumblr</span></a></li>
+                        	{% endif %}
+                          	{% if settings.ssnp_show_pinterest %}
+                          	<li><a href="{{ settings.ssnp_link_pinterest }}" title="title"><i class="fa fa-pinterest"></i><span class="hidden">Pinterest</span></a></li>
+                        	{% endif %}
+                          	{% if settings.ssnp_show_linkedin %}
+                          	<li><a href="{{ settings.ssnp_link_linkedin }}" title="title"><i class="fa fa-linkedin"></i><span class="hidden">Linkedin</span></a></li>
+                          	{% endif %}
+                      	</ul>
+                  	</div>
+              	</div> 
+      		</div>
+    	</div>
+    	<button title="Close" type="button" class="popup-close">×</button> </div> 
+  	</div> 
+  </div>
+</div>

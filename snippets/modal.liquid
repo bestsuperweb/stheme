@@ -1,0 +1,71 @@
+<div class="model-popup">
+  <!--   Popup Cart -->
+  <div class="popup_cart bg_1 modal-pu pu-cart">    
+    <div class="popup_content">
+      <div class="container a-center">
+        <div class="popup_inner">
+          <a class="popup_close close-pu" href="#" title="">{% include 'icon-close' %}</a>	
+          <div class="product-image">
+            <img alt="" src="{{ 'ajax-loader.gif' | asset_url }}" style="max-width:100px; height:auto"/>
+          </div>
+          <div class="product-info">
+            <p class="product-name"></p>
+            <div class="actions">    
+              <button class="btn btn-primary" onclick="window.location='/cart'">{{'cart.general.view_cart' | t }}</button>
+              <button class="btn btn-primary" onclick="window.location='/checkout'">{{'cart.general.checkout' | t }}</button>        
+            </div>        
+          </div>
+          <div class="mesenger-noty"> <p class="success-message btn-cart">{{ 'cart.general.cart_success' | t }}</p></div>
+        </div>
+      </div>
+      <div class="popup_bg">&nbsp;</div>
+    </div>
+  </div>
+  <!--   Newleter -->
+  {% if template contains 'index' and settings.ssnp_status %}
+  {% include 'ss-newletter-popup' %}
+  {% endif %}
+
+  <!-- Social Fixed -->
+  {%- assign social_facebook = settings.social_facebook_link -%}
+  {%- assign social_twitter = settings.social_twitter_link -%}
+  {%- assign social_google = settings.social_google_link -%}
+  {%- assign social_pinterest = settings.social_pinterest_link -%}
+
+  {% if settings.fixed_social %}
+  <div class="socials-wrap hidden-sm hidden-xs">
+    <ul>
+      {% if settings.social_facebook_link != blank %}
+      <li class="li-social facebook-social">
+        <a title="Facebook" href="{{ social_facebook }}" target="_blank"> 
+          <span class="fa fa-facebook icon-social"></span>
+        </a>
+      </li>
+      {% endif %}	
+      {% if settings.social_twitter_link != blank %}
+      <li class="li-social twitter-social">
+        <a title="Twitter" href="{{ social_twitter }}" target="_blank"> 
+          <span class="fa fa-twitter icon-social"></span>
+        </a>
+      </li>
+      {% endif %}	
+      {% if settings.social_google_link != blank %}
+      <li class="li-social google-social">
+        <a title="Google+" href="{{ social_google }}" target="_blank"> 
+          <span class="fa fa-google-plus icon-social"></span>
+        </a>
+      </li>
+      {% endif %}		
+      {% if settings.social_pinterest_link != blank %}	
+      <li class="li-social pinterest-social">
+        <a title="Pinterest" href="{{ social_pinterest }}" target="_blank"> 
+          <span class="fa fa-pinterest icon-social"></span>
+        </a>
+      </li>
+      {% endif %}	
+    </ul>
+  </div>
+  {% endif %}
+  <!--   Loading Icon -->
+  <div class="ss-loading" style="display: none;"></div>
+</div>

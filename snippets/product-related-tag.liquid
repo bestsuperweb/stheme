@@ -1,0 +1,68 @@
+
+{% if section.settings.product_related_enable %}
+
+{% assign column1 = section.settings.column1 | plus:0 %}
+{% assign column2 = section.settings.column2 | plus:0 %}
+{% assign column3 = section.settings.column3 | plus:0 %}
+{% assign column4 = section.settings.column4 | plus:0 %}
+{% assign column5 = section.settings.column5 | plus:0 %}
+
+{% assign relateLimit = section.settings.product_related_limit | plus: 1 %}
+{% assign current_product = product %}
+{% assign current_product_tags = product.tags %}
+{% assign found_first_match = false %}
+{% assign found_has_tag = false %}
+{% assign first_related_product = true %}
+{% assign product_count = 1 %}
+{% paginate collections.all.products by 200 %}
+{% for product in collections.all.products %}
+{% unless product.handle == current_product.handle %}
+{% for tag in product.tags %}
+{% if current_product_tags contains tag and tag != '' %}
+{% if found_first_match == false %}
+{% assign found_first_match = true %}
+{% assign first_match = tag %}
+{% elsif found_has_tag == false %}
+{% assign found_has_tag = true %}
+{% assign has_tag = tag %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% if found_first_match == true %}
+{% if first_related_product == true %}
+{% assign first_related_product = false %}
+{% assign nb_column1 = section.settings.nb_column1 %}
+{% assign nb_column2 = section.settings.nb_column2 %}
+<section class="section-related">
+  <div id="related" class="related-products">
+    <h3 class="detail-title"><span>{{ section.settings.product_related_title }}</span></h3>
+  <div class="products-listing grid ss-carousel ss-owl">
+    <div class="product-layout owl-carousel" 
+         data-nav="{{ section.settings.navigation }}"
+         data-margin		="30" 
+         data-lazyLoad		="true"
+         data-column1="	{{ column1 }}" 
+         data-column2="	{{ column2 }}" 
+         data-column3="	{{ column3 }}" 
+         data-column4="	{{ column4 }}" 
+         data-column5="	{{ column5 }}">
+      {% endif %}
+      {% if product_count < relateLimit %} 
+      {% if product.tags contains first_match or product.tags contains has_tag %}          
+      <div class="">
+        {% include 'product-card-grid' with collection.handle %}
+      </div>
+      {% assign product_count = product_count | plus:1 %}
+      {% endif %}
+      {% endif %}
+      {% endif %}
+      {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endpaginate %}
+  </div>
+</section>
+
+{% endif %}
