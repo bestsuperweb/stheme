@@ -3,11 +3,16 @@ The contents of the product.liquid template can be found in /sections/product-te
 {% endcomment %}
 
 {% include 'breadcrumb' %}
-<div class="container">
+<!-- <div class="container">
   <div class="row">
     {% section 'product-sidebar' %}
     {% section 'product-template' %}
   </div>
+</div> -->
+
+<div class="container-fluid">
+	{% section 'product-main' %}
+	{% section 'product-bottom' %}
 </div>
 
 <script>
