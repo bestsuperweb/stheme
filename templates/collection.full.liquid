@@ -1,0 +1,16 @@
+
+{% include 'breadcrumb' %}
+<div class="container">
+  <div class="row">
+     {% section 'sidebar' %}
+    <style>
+      .open-sidebar, .block{
+      	display: none; 
+      }
+    </style>
+    <div class="col-main col-lg-12">
+      {% section 'collection-info' %}
+      {% section 'collection-template' %}
+    </div>
+  </div>
+</div>

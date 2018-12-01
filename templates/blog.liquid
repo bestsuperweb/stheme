@@ -1,0 +1,11 @@
+{% comment %}
+The contents of the blog.liquid template can be found in /sections/blog-template.liquid
+{% endcomment %}
+{% include 'breadcrumb' %}
+<div class="container">
+  <div class="row">
+    {% section 'blog-sidebar' %}
+
+    {% section 'blog-template' %}  
+  </div>
+</div>

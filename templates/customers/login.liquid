@@ -1,0 +1,96 @@
+{% include 'breadcrumb' %}
+<div class="container">
+  <div class="wraper-inner">
+    <h1 class="page-title">{{ 'customer.login.title-page' | t }}</h1>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="formaccount formlogin">
+          <div class="alert alert-success" id="resetSuccess" style="display:none;">
+            {{ 'customer.recover_password.success' | t }}
+          </div>
+          <div id="CustomerLoginForm" class="form-vertical block">
+        {% form 'customer_login' %}
+
+          <h3 class="block-title">{{ 'customer.login.title' | t }}</h3>
+
+          {{ form.errors | default_errors }}
+
+          <label for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
+          <input type="email" name="customer[email]" id="CustomerEmail" class="{% if form.errors contains 'email' %} input--error{% endif %}" autocorrect="off" autocapitalize="off" autofocus>
+
+          {% if form.password_needed %}
+            <label for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
+            <input type="password" value="" name="customer[password]" id="CustomerPassword" class="{% if form.errors contains 'password' %} input--error{% endif %}">
+          {% endif %}
+
+          <div class="submit">
+            {% if form.password_needed %}
+              <p><a href="#recover" id="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a></p>
+            {% endif %}
+
+            <input type="submit" class="btn" value="{{ 'customer.login.sign_in' | t }}">
+          </div>
+
+        {% endform %}
+      </div>
+
+      <div id="RecoverPasswordForm" class="hide">
+
+        <div class="block">
+          <h3 class="block-title">{{ 'customer.recover_password.title' | t }}</h3>
+          <p>{{ 'customer.recover_password.subtext' | t }}</p>
+        </div>
+
+        <div class="form-vertical">
+          {% form 'recover_customer_password' %}
+
+            {{ form.errors | default_errors }}
+
+            {% comment %}
+              Add a hidden span to indicate the form was submitted succesfully.
+            {% endcomment %}
+            {% if form.posted_successfully? %}
+              <span class="hide reset-password-success"></span>
+            {% endif %}
+
+            <label for="RecoverEmail">{{ 'customer.recover_password.email' | t }}</label>
+            <input type="email" value="" name="email" id="RecoverEmail" class="input-full"autocorrect="off" autocapitalize="off">
+
+            <div class="submit">
+              <p>
+                <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
+              </p>
+
+              <button type="button" id="HideRecoverPasswordLink" class="text-link">{{ 'customer.recover_password.cancel' | t }}</button>
+            </div>
+          {% endform %}
+        </div>
+
+      </div>
+          
+          {% if shop.checkout.guest_login %}
+          <h2 class="title">{{ 'customer.login.guest_title' | t }}</h2>
+          {% form 'guest_login' %}
+          <input type="submit" class="btn default" value="{{ 'customer.login.guest_continue' | t }}">
+          {% endform %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="formaccount formlogin block">
+          <h3 class="block-title">{{ 'customer.register.title' | t }}</h3>
+          <div class="formcontent">
+            <div class="registerdescription">
+              <p>{{ 'customer.register.subtext' | t }}</p>
+            </div>
+            <div class="submit">
+              <a class="btn default" href="/account/register">
+                <i class="fa fa-user-plus" aria-hidden="true"></i><span>{{ 'customer.register.submit' | t }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

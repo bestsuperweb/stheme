@@ -1,0 +1,18 @@
+
+{% include 'breadcrumb' %}
+<div class="container">
+      {% section 'collection-info' %}
+  
+  <div class="row">
+	<div class="sidebar-overlay"></div>
+    <div class="col-main col-lg-9 col-md-9">
+      {% section 'collection-template' %}
+    </div>
+    <div class="col-sidebar sidebar-fixed col-lg-3 col-md-3">
+      <span id="close-sidebar" class="btn-fixed hidden-md hidden-lg"><i class="fa fa-times"></i></span>
+      {% section 'sidebar' %}
+      
+    </div>    
+  </div>
+</div>
+{% section 'collection-banner' %}
