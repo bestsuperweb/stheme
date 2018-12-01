@@ -1,25 +1,71 @@
 <div class="row">
 	<div class="col-sm-5">
-		<div class="row">
-			<div class="col-sm-10 col-sm-offset-2">
+		<div class="row bg-yellow" style="margin-right: 0;">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-9">
 				<div class="product-motto">
 					"EAT YOUR SCHOOL, STAY ON DRUGS AND SAY NO TO VEGETABLES"
 				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-right: 0;">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-9">
+				
 				<div class="row">
 					<div class="col-xs-6">
-						
+						<span class="product-tab active">DETAILS</span>
 					</div>
 					<div class="col-xs-6">
-						<a href="#">ADD To CART</a>
+						<form action="/cart/add" method="post" enctype="multipart/form-data" >
+							<input type="text" id="qty" name="quantity" value="1" min="1" style="display: none;" > 
+							<select name="id" style="display: none;">
+								{% for variant in product.variants %}
+								{% if variant.available %}
+								<option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+									{{ variant.title }}
+								</option>
+								{% else %}
+								<option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+							<button type="submit" name="add" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="product-tab" >
+								ADD TO CART
+							</button>
+						</form>
 					</div>
 				</div>
-				<textarea>
-					
-				</textarea>	
+				<div>
+					{{product.description}}
+				</div>
+
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-7 bg-yellow">
+		<div class="row" style="margin-left: 0;">
+			<div class="col-sm-10">
+				<div id="productCarousel" class="carousel slide" data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators">
+						{% for image in product.images %}
+						<li data-target="#productCarousel" data-slide-to="{{ forloop.index }}" {% if forloop.first == true %} class="active" {% endif %}></li>
+						{% endfor %}		    
+					</ol>
+
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner">
+						{% for image in product.images %}
+						<div class="item {% if forloop.first == true %} active {% endif %}">
+							<img src="{{ image.src | img_url: "800x700" }}" class="img-responsive" >
+						</div>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+		
 	</div>
-	<div class="col-sm-1"></div>
-</div>
