@@ -1,0 +1,583 @@
+{{ 'jquery.history.js' | asset_url | script_tag }}
+{{ 'ss-filter-shopby.js' | asset_url | script_tag }}
+
+
+<div class="block widget-filter yt-left-wrap clearfix">
+  <div id="layered-navigation">
+    <div class="block block-layered-nav">
+      {% if section.settings.show_title and section.settings.title != blank %}
+      <div class="block-title">
+        <strong><span>{{ section.settings.title }}</span></strong>
+      </div>
+      {% else %}
+      	<div class="block-title">
+          <strong><span>{{ 'collections.sidebar.shopby' | t }}</span></strong>
+        </div>
+      {% endif %}
+      <div class="block-content">
+        <dl id="narrow-by-list">
+          {% if section.settings.display_cate %}
+          	<dt class="category-filter">{{ section.settings.title_cate }}</dt>
+          {% endif %}
+          {% if section.settings.show_categories == 'show_alls' %}
+			<dd class="filter-category">
+              <ol>
+          		{% for category in collections %}
+                	<li>
+                      <a href="{{ category.url }}" {% if collection.handle == category.handle %}class="active"{% endif %}>{{ category.title }} (<span>{{category.all_products.size}}</span>)</a>
+            		</li>     
+            	{% endfor %}
+              </ol>
+          	</dd>
+          {% else %}
+        	{% assign items = section.settings.categories_item | split:"," | strip | downcase %}
+            <dd class="filter-category">
+              <ol>
+                {% for category in collections %}
+                  {% assign cat = category.title | downcase %}
+                  {% if items contains cat %}
+                  <li>
+                    <a href="{{ category.url }}" {% if collection.handle == category.handle %}class="active"{% endif %}>{{ category.title }} (<span>{{category.all_products.size}}</span>)</a>
+                  </li>     
+                  {% endif %}
+                {% endfor %}
+              </ol>
+          	</dd>
+          {% endif %}
+          
+          <div class="filter-tags">
+          {% for block in section.blocks %}
+          	{% case block.type %}
+              {% when 'filter_color' %}
+              	{% if block.settings.enable %}
+                  {% if block.settings.title != blank %}
+                    <dt>
+                      <span class="category-filter">{{ block.settings.title }}</span>
+                      <a href="javascript:void(0)" class="clear" style="display:none">
+                        {{ 'collections.sidebar.clear' | t }}
+                      </a>
+            		</dt>
+                  {% endif %}
+                  <dd class="filter-color">
+                    <ol>
+                      {% for i in (1..20) %}
+                      	{% capture color_text %}color_text_{{ i }}{% endcapture %}
+                        {% capture color %}color_img_{{ i }}{% endcapture %}
+
+                        {% if block.settings[color] != blank %}
+                          {%- assign img_url = block.settings[color] | img_url: '34x34' -%}
+                        {% else %}
+                          {%- assign img_url = '' -%}
+                        {% endif %}
+
+                        {% if color_text != blank %}
+                          {% assign tag = block.settings[color_text] | strip %}
+                          {% if collection.tags contains tag %} 
+                            <li class="{{ tag | handleize }}">
+                              {% assign tag_value = tag | handleize %}
+                              <input type="checkbox" value="{{ tag_value }}" {% if current_tags contains tag %}checked{% endif %}/>
+                              <a href="javascript:void(0)"  {% if current_tags contains tag %} class="active" {% endif %} title="{{tag}}">
+                                <img src="{{ img_url }}" alt="">
+                              </a>
+                          	</li>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </ol>
+                  </dd>
+                {% endif %}
+              {% when 'filter_tag' %}
+          		{% if block.settings.enable %}
+          		  {% assign tags = block.settings.list_tags | split: ',' %}
+                  {% if block.settings.title != blank %}
+                    <dt>
+                      <span class="category-filter">{{ block.settings.title }}</span>
+                      <a href="javascript:void(0)" class="clear" style="display:none">
+                        {{ 'collections.sidebar.clear' | t }}
+                      </a>
+                    </dt>
+                  {% endif %}
+                  <dd>
+                    <ol>
+                      {% for t in tags %}
+                        {% assign tag = t | strip %}
+                        {% assign tag_value = tag | handleize %} 
+
+                        {% if current_tags contains tag %}
+                          <li>
+                            <input type="checkbox" value="{{ tag_value }}" checked/>
+                            <label>{{ tag }}</label>
+                          </li>
+                        {% else %}
+                          {% if collection.tags contains tag %} 
+                            <li>
+                              <input type="checkbox" value="{{ tag_value }}"/>
+                              <label>{{ tag }}</label>
+                            </li>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </ol>
+                  </dd>
+          		{% endif %}
+          	{% endcase %}
+          {% endfor %}
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix clr clear"></div>
+ 
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'bestseller_product' %}
+    {% if block.settings.bs_enable %}
+      <div class="block widget-prd-featured best-seller spaceBlock">
+        {% if block.settings.bs_title != blank %}
+            <h3 class="block-title">{{ block.settings.bs_title }}</h3>
+        {% endif %}
+        <div class="wrap">
+        {% if block.settings.collection == blank %}
+       		<div class="product-item no-product">
+             <a href="#" class="center">
+                 {% capture current %}{% cycle 1 %}{% endcapture %}
+                 {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+               </a>
+             <div class="product-name"><strong>Yours Product Demo</strong></div>
+             <div class="price">
+              <span class="price-new"> $999.00 </span>
+             </div>
+           </div>
+        {% else %}
+          {% for product in collections[block.settings.collection].products limit:block.settings.bs_limit %}
+              {% include 'product-item' %} 
+          {% endfor %}
+        {% endif %}        
+        
+        </div>
+      </div>
+    {% endif %}
+	{% when 'banner' %}
+      <div class="block sidebar-banner spaceBlock banners ov">
+        <div>
+        {% if block.settings.image_sidebar != blank %}
+        
+          <a href="{{ block.settings.banner_sidebar_link }}" title="">
+            <img class="img-responsive" alt="{{ block.settings.image_sidebar | default: shop.name }}" src="{{ block.settings.image_sidebar | img_url: 'master' }}" />
+          </a>
+        {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+        </div>
+      </div>
+  {% endcase %}
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "Sidebar",
+    "max_blocks": 10,
+    "settings": [
+		{
+      "type": "checkbox",
+      "id": "enable_sidebar",
+      "label": "Enable Sidebar ?",
+      "default": true
+    },
+    { 
+      "type": "radio",
+      "id": "show_sidebar",
+      "label": "Show Sidebar Layout: ",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_cate",
+      "label": "Enable Category Sidebar?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title_cate",
+      "placeholder": "Categories",
+      "label": "Title Categories",
+      "default": "Categoriess"
+    },
+    {
+      "type": "radio",
+      "id": "show_categories",
+      "label": "Show all \/ Only show the selected",
+      "options": [
+        {
+          "value": "show_alls",
+          "label": "Show all Category"
+        },
+        {
+          "value": "show_onlys",
+          "label": "Only show the selected Category"
+        }
+      ],
+      "default": "show_onlys"
+    },
+    {
+      "type": "textarea",
+      "id": "categories_item",
+      "label": "List of Category",
+      "info": "For ex: home, catalog, shop",
+      "default": "Shop"
+    }
+    ],
+    "blocks": [
+		{
+			"type": "filter_color",
+            "name": "Filter Color",
+            "settings": [
+              	{
+                    "type": "checkbox",
+                    "id": "enable",
+                    "label": "Enable",
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Filter Title"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_1",
+                    "label": "Color text 1",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_1",
+                    "label": "Color image 1"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_2",
+                    "label": "Color text 2",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_2",
+                    "label": "Color image 2"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_3",
+                    "label": "Color text 3",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_3",
+                    "label": "Color image 3"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_4",
+                    "label": "Color text 4",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_4",
+                    "label": "Color image 4"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_5",
+                    "label": "Color text 5",
+                    "info": "i.e \"Red\"."
+                },
+				{
+                    "type": "image_picker",
+                    "id": "color_img_5",
+                    "label": "Color image 5"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_6",
+                    "label": "Color text 6",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_6",
+                    "label": "Color image 6"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_7",
+                    "label": "Color text 7",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_7",
+                    "label": "Color image 7"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_8",
+                    "label": "Color text 8",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_8",
+                    "label": "Color image 8"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_9",
+                    "label": "Color text 9",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_9",
+                    "label": "Color image 9"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_10",
+                    "label": "Color text 10",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_10",
+                    "label": "Color image 10"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_11",
+                    "label": "Color text 11",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_11",
+                    "label": "Color image 11"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_12",
+                    "label": "Color text 12",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_12",
+                    "label": "Color image 12"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_13",
+                    "label": "Color text 13",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_13",
+                    "label": "Color image 13"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_14",
+                    "label": "Color text 14",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_14",
+                    "label": "Color image 14"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_15",
+                    "label": "Color text 15",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_15",
+                    "label": "Color image 15"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_16",
+                    "label": "Color text 16",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_16",
+                    "label": "Color image 16"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_17",
+                    "label": "Color text 17",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_17",
+                    "label": "Color image 17"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_18",
+                    "label": "Color text 18",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_18",
+                    "label": "Color image 18"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_19",
+                    "label": "Color text 19",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_19",
+                    "label": "Color image 19"
+                },
+                {
+                    "type": "text",
+                    "id": "color_text_20",
+                    "label": "Color text 20",
+                    "info": "i.e \"Red\"."
+                },
+                {
+                    "type": "image_picker",
+                    "id": "color_img_20",
+                    "label": "Color image 20"
+                }
+			]
+		},
+		{
+            "type": "filter_tag",
+            "name": "Filter Tags",
+            "settings": [
+                {
+                    "type": "checkbox",
+                    "id": "enable",
+                    "label": "Enable",
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Filter Title"
+                },
+                {
+                    "type": "textarea",
+                    "id": "list_tags",
+                    "label": "List Tags",
+                    "info": "Separate by a comma, i.e \"S, M, L\"."
+                }
+            ]
+		},
+      {
+        "type": "bestseller_product",
+        "name": "Sidebar Products",
+        "settings": [
+		 {
+          "type": "checkbox",
+          "id": "bs_enable",
+          "label": "Enable Product Sidebar?",
+          "default": true
+     	  },
+          {
+            "type": "text",
+            "id": "bs_title",
+            "label": "Title",
+			"default": "Best Sellers"
+          },
+          {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "bs_limit",
+            "label": "Number of products to show",
+            "default": "3"
+          }
+        ]
+      },
+		{
+        "type": "banner",
+        "name": "Sidebar Banner",
+        "settings": [
+		 {
+            "type": "checkbox",
+            "id": "enable_img",
+            "label": "Enable Banner Sidebar?",
+            "default": true
+          },
+          {
+            "type": "image_picker",
+            "id": "image_sidebar",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "banner_sidebar_link",
+            "label": "Banner Image Link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+
+  {% if section.settings.enable_sidebar %}
+    @media (min-width: 768px) {
+      .template-collection .col-sidebar { display: block!important; }
+    }
+
+  {% else %}
+    .template-collection .col-sidebar { display: none!important; }
+    .template-collection .col-main { width: 100%!important; }
+    @media (max-width: 767px) {
+      .template-collection #displayTextLeft { display: none; }
+    }
+  {% endif %}
+  {% if section.settings.show_sidebar == 'right' %}
+    .col-sidebar { float: right; }
+  {% endif %}
+
+</style>
+
+{% javascript %}
+{% endjavascript %}

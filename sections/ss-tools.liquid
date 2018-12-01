@@ -1,0 +1,372 @@
+{% if section.settings.status %}
+  {{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+  <div id="so-groups" class="{{ section.settings.position }} so-groups-sticky hidden-xs" style="top: {{ section.settings.position_top }}px">
+    {% if section.settings.show_category %}
+	<a class="sticky-categories" data-target="popup" data-popup="#popup-categories"><span>{{ 'sections.tools.text_head_categories' | t }}</span><i class="fa fa-align-justify"></i></a>
+	{% endif %}
+	{% if section.settings.show_cart %}
+	<a class="sticky-mycart" data-target="popup" data-popup="#popup-mycart"><span>{{ 'sections.tools.text_head_cart' | t }}</span><i class="fa fa-shopping-cart"></i></a>
+	{% endif %}
+	{% if section.settings.show_account %}
+	<a class="sticky-myaccount" data-target="popup" data-popup="#popup-myaccount"><span>{{ 'sections.tools.text_head_account' | t }}</span><i class="fa fa-user"></i></a>
+	{% endif %}
+	{% if section.settings.show_search %}
+	<a class="sticky-mysearch" data-target="popup" data-popup="#popup-mysearch"><span>{{ 'sections.tools.text_head_search' | t }}</span><i class="fa fa-search"></i></a>
+	{% endif %}
+	{% if section.settings.show_recent_product %}
+	<a class="sticky-recent" data-target="popup" data-popup="#popup-recent"><span>{{ 'sections.tools.text_head_recent_view' | t }}</span><i class="fa fa-recent"></i></a>
+	{% endif %}
+	{% if section.settings.show_backtop %}
+	<a class="sticky-backtop" data-target="scroll" data-scroll="html"><span>{{ 'sections.tools.text_head_gotop' | t }}</span><i class="fa fa-angle-double-up"></i></a>
+	{% endif %}
+    
+    {% if section.settings.show_category %}
+      <div class="popup popup-categories popup-hidden" id="popup-categories">
+        <div class="popup-screen">
+          <div class="popup-position">
+            <div class="popup-container popup-small">
+              <div class="popup-header">
+                <span><i class="fa fa-align-justify"></i>{{ 'sections.tools.text_all_categories' | t }}</span>
+                <a class="popup-close" data-target="popup-close" data-popup-close="#popup-categories">&times;</a>
+              </div>
+              <div class="popup-content">
+                <div class="nav-secondary">
+                  <ul>
+                	{% for collection in collections %}
+                      <li>
+                        <a href="{{ collection.url }}"><i class="fa fa-chevron-down nav-arrow"></i>{{ collection.title }}</a>
+                      </li>
+                	{% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if section.settings.show_cart %}
+      <div class="popup popup-mycart popup-hidden" id="popup-mycart">
+        <div class="popup-screen">
+          <div class="popup-position">
+            <div class="popup-container popup-small">
+              <div class="popup-html">
+                <div class="popup-header">
+                  <span><i class="fa fa-shopping-cart"></i>{{ 'sections.tools.text_shopping_cart' | t }}</span>
+                  <a class="popup-close" data-target="popup-close" data-popup-close="#popup-mycart">&times;</a>
+                </div>
+                <div class="popup-content">
+                  <div class="cart-header">       
+                    <div class="notification gray no-items">
+                      <i class="fa fa-shopping-cart info-icon"></i>
+                      <p>{{ 'sections.tools.text_empty' | t }}</p>
+                    </div>
+                    <div class="has-items">
+                      <div class="notification gray ">
+                        <p>{{ 'sections.tools.text_items_product_html' | t: count: cart.item_count }}</p>
+                      </div>
+                      <table class="table table-striped list-cart">
+                        <tbody>
+                          {% for item in cart.items %}
+                          <tr>
+                            <td class="text-left first">
+                              <a href="{{ item.url }}">
+                                <img class="img-thumbnail img-responsive" src="{{ item | img_url: '80x80', scale: 1 }}" alt="{{ item.title | escape }}">
+                              </a>
+                            </td>
+                            <td class="text-left">
+                              <a href="{{ item.url }}">{{ item.product.title }}</a>
+                              {% unless item.variant.title contains 'Default' %}
+                              <div class="cart__meta-text">
+                                {% for option in item.product.options %}
+                                {{ option }}: {{ item.variant.options[forloop.index0] }}<br/>
+                                {% endfor %}
+                              </div>
+                              {% endunless %}
+                            </td>
+                            <td class="text-right">x&nbsp;{{ item.quantity }}</td>
+                            <td class="text-right total-price">{{ item.product.price | money }}</td>
+                            <td class="text-right last">
+                              <a href="javascript:;" data-productId="{{ item.id }}" onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?'); return false;" class="btn-remove"><i class="fa fa-trash"></i></a>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      <div class="cart-bottom">
+                        <table class="table table-striped">
+                          <tr>
+                            <td class="text-left"><strong>{{ 'cart.general.subtotal' | t }}</strong></td>
+                            <td class="text-right">{{ cart.total_price | money }}</td>
+                          </tr>
+                          {% if cart.total_discounts > 0 %}
+                          <tr>
+                            <td class="text-left"><strong>{{ 'cart.general.savings' | t }}</strong></td>
+                            <td class="text-right">{{ cart.total_discounts | money }}</td>
+                          </tr>
+                          {% endif %}
+                        </table>
+                        <p class="text-center">
+                          <a href="/cart" class="btn btn-view-cart"><strong>{{ 'sections.tools.text_cart' | t }}</strong></a>
+                          <a href="/checkout" class="btn btn-checkout"><strong>{{ 'sections.tools.text_checkout' | t }}</strong></a>
+                        </p>
+                      </div>  
+                    </div>
+                  </div>
+                </div>			
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if section.settings.show_account %}
+      <div class="popup popup-myaccount popup-hidden" id="popup-myaccount">
+        <div class="popup-screen">
+          <div class="popup-position">
+            <div class="popup-container popup-small">
+              <div class="popup-html">
+                <div class="popup-header">
+                  <span><i class="fa fa-user"></i>{{ 'sections.tools.text_my_account' | t }}</span>
+                  <a class="popup-close" data-target="popup-close" data-popup-close="#popup-myaccount">&times;</a>
+                </div>
+                <div class="popup-content">
+                  <div class="form-content">
+                    <div class="row space">
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/account">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-history"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_history' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/cart">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-shoppingcart"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_shopping_cart' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/account/register">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-register"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_register' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/account">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-account"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_account' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/account/login">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-download"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_download' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col col-sm-4 col-xs-6 txt-center">
+                        <div class="form-box">
+                          <a class="account-url" href="/account/login">
+                            <span class="ico ico-32 ico-sm"><i class="fa fa-login"></i></span><br>
+                            <span class="account-txt">{{ 'sections.tools.text_login' | t }}</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>					
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if section.settings.show_search %}
+      <div class="popup popup-mysearch popup-hidden" id="popup-mysearch">
+        <div class="popup-screen">
+          <div class="popup-position">
+            <div class="popup-container popup-small">
+              <div class="popup-html">
+                <div class="popup-header">
+                  <span><i class="fa fa-search"></i>{{ 'sections.tools.text_search' | t }}</span>
+                  <a class="popup-close" data-target="popup-close" data-popup-close="#popup-mysearch">&times;</a>
+                </div>
+                <div class="popup-content">
+                  <div class="form-content">
+                    <div class="row space">
+                      <div class="col">
+                        <div class="form-box">
+                          <input type="text" name="search" value="" placeholder="{{ 'sections.tools.text_search' | t }}" id="input-search" class="field" />
+                          <i class="fa fa-search sbmsearch"></i>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-box">
+                          <button type="button" id="button-search" class="btn button-search">{{ 'sections.tools.text_search' | t }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if section.settings.show_recent_product %}
+      <div class="popup popup-recent popup-hidden" id="popup-recent">
+        <div class="popup-screen">
+          <div class="popup-position">
+            <div class="popup-container popup-small">
+              <div class="popup-html">
+                <div class="popup-header">
+                  <span><i class="fa fa-recent"></i>{{ 'sections.tools.text_recent_products' | t }}</span>
+                  <a class="popup-close" data-target="popup-close" data-popup-close="#popup-recent">&times;</a>
+                </div>
+                <div class="popup-content">
+                  <div class="form-content">
+                    <div class="row space">
+                      <div id="recently-viewed-products" style="display:none"> 
+                      </div>
+                      {% raw %}
+                      <script id="recently-viewed-product-template"  type="text/x-jquery-tmpl">
+                      <div id="product-${handle}" class="product col col-sm-4 col-xs-6">
+                      	<div class="form-box">
+                        	<div class="item">
+                            	<div class="product-thumb transition">
+                              		<div class="image">
+                                    	{{if compare_at_price}}
+                                    	<span class="bt-sale">Sale</span>
+                                        {{/if}}
+                                		<a href="${url}">
+                                  			<img src="${Shopify.Products.resizeImage(featured_image, "medium")}" />
+                        				</a>
+                          			</div>
+                                    <div class="caption">
+                                    	<h4><a href="${url}" title="${title}">${title}</a></h4>
+                                        <p class="price">
+                                        	<span class="price-new">${Shopify.formatMoney(price)}</span>
+                                            <span class="price-old">{{if compare_at_price}}${Shopify.formatMoney(compare_at_price)}{{/if}}</span>
+                        				</p>
+                                    </div>
+                                </div>
+                          	</div>
+                        </div>
+                      </div>
+                      </script>
+                      {% endraw %}
+					  
+                      <script>
+                        var limit_product = {{ section.settings.limit_product }};
+                        Shopify.Products.showRecentlyViewed( { howManyToShow: limit_product } );
+                      </script>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Widget Tools",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "status",
+        "label": "Status",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "position",
+        "label": "Position",
+        "options": [
+          {"value": "right", "label": "Right"},
+          {"value": "left", "label": "Left"}
+        ]
+      },
+      {
+        "type": "text",
+        "id": "position_top",
+        "label": "Position Top (px)",
+        "default": "100"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_category",
+        "label": "Show Category",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart",
+        "label": "Show Cart",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_account",
+        "label": "Show Account",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "Show Search",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_recent_product",
+        "label": "Show Recent View Product",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "limit_product",
+        "label": "Limit Recent View Product",
+        "default": "6"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_backtop",
+        "label": "Show Back To Top",
+        "default": true
+      }
+    ],
+	"presets": [
+      {
+        "name": "Widget Tools",
+        "category": "Magentech"            
+      }
+  	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

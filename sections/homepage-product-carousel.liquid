@@ -1,0 +1,343 @@
+{% assign list_collection 	= section.settings.list_collection %}
+{% assign nav				= section.settings.owl_navigation  %}
+{% assign margin			= section.settings.owl_margin  %}
+{% assign autoplay			= section.settings.owl_autoplay  %}
+{% assign autospeed			= section.settings.owl_autoplay_speed  %}
+{% assign speed				= section.settings.owl_speed  %}
+{% assign column1			= section.settings.column1  %}
+{% assign column2 			= section.settings.column2  %}
+{% assign column3 			= section.settings.column3  %}
+{% assign column4 			= section.settings.column4  %}
+{% assign column5 			= section.settings.column5  %}
+{% assign row 				= section.settings.row      %}
+{% assign limit 			= section.settings.limit    %}
+{% assign show_container	= section.settings.show_container    %}
+
+<div class="widget-product-carousel {{ section.settings.layout }}">  
+  
+    <div class="{% if show_container %}container {% else %} container_full{% endif %}">
+    	<div class="products-listing grid">
+          <div class="home-title">
+<!--             <h2>{{ section.settings.title1 }}</h2> -->
+            {% if section.settings.title1 == 'featured' %}
+            	<img src="{{ 'featured-collections.png' | asset_url }}" >
+            {% endif %}
+          </div>
+          
+          <div class="product-layout block-content{% if row == 2 %} row2 {% endif %}">
+                <div class="ss-carousel ss-owl">
+                    <div class="owl-carousel" 
+                        data-nav		="{{ nav }}" 
+                        data-margin		="{{ margin }}"
+                        data-autoplay	="{{ autoplay }}" 
+                        data-autospeed	="{{ autospeed }}" 
+                        data-speed		="{{ speed }}"
+                        data-column1	="{{ column1 }}" 
+                        data-column2	="{{ column2 }}" 
+                        data-column3	="{{ column3 }}" 
+                        data-column4	="{{ column4 }}" 
+                        data-column5	="{{ column5 }}">
+                        {% for product in collections[list_collection].products limit:limit %}
+                      		{% if section.settings.image_size != blank %}
+                                {% assign image_size = section.settings.image_size %}
+                            {% else %}
+                                {% assign image_size = 'master' %}
+                            {% endif %}
+                            {% if row == 2 %}
+                                {% assign row_check = forloop.index | modulo:row %}
+                                {% if row_check == 1 %}
+                                    <div class="item">
+                                {% endif %}
+                                    {% include 'product-card-grid' %}
+                                {% if row_check == 0 or forloop.last %}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="item">
+                                    {% include 'product-card-grid' %}
+                                </div>
+                            {% endif %}
+                      		{% else %}
+                            {% for product in (1..limit) %}
+                            <div class="grid-item">
+                              <div class="grid-view-item no-product">
+                                <a href="#" class="grid-view-item__link">
+                                  <div class="grid-view-item__image" style="padding: 0 15px;">
+                                    <img src="{{ 'placeholder.png' | asset_url }}" class="img-responsive" style="border: 10px solid #fff; box-shadow: 10px 10px 5px 5px rgba(0,0,0,.3);" />
+                                  </div>
+<!--                                   <div class="product-title"><strong>Your Product's {{ forloop.index }}</strong></div> -->
+                                </a>
+<!--                                 <div class="price-box">
+                                  <span> $100.00 </span>
+                                </div> -->
+                              </div>
+                            </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+          
+          <div class="home-collection-title-ribon-bar container">
+            <div class="col-md-6">
+              <div class="row ribone-badgeg-title">
+                <div class="ribon-badge"><img src="{{ collections[list_collection].image | img_url: 'master' }}" alt="" /></div>
+                <div class="ribon-title"><a href="{{ collections[list_collection].url }}">{{ collections[list_collection].title }}</a></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="ribon-description">{{ collections[list_collection].description | truncate: 210 }}</div>
+              </div>
+            </div>
+          </div>          
+      	</div>
+    </div>
+</div>
+{% schema %}
+{
+	"name": "Home Page Products",
+	"class": "home-section",
+	"settings":[
+		{
+          	"type": "header",
+          	"content": "General Settings"
+        },
+		{
+          "type": "checkbox",
+          "id": "show_container",
+          "label": "Enable",
+          "default": true
+        },
+		{
+            "type": "select",
+            "id": "style",
+            "label": "Select Style",
+            "default": "style-df",
+            "options":[
+            	{
+            		"value": "style-df",
+                    "label": "Style Default"
+            	}
+            ]
+        },
+		{
+            "type": "text",
+            "id": "title1",
+            "label": "Title"
+        },
+        {
+            "type": "collection",
+            "id": "list_collection",
+            "label": "Select Collection"
+        },
+        {
+            "type": "text",
+            "id": "image_size",
+            "label": "Image size",
+            "default": "270x384",
+            "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+        },
+        {
+            "type": "header",
+            "content": "Owl Settings"
+        },
+        {
+            "type": "select",
+            "id": "column1",
+            "label": "#Column 1",
+            "default": "4",
+			"info": "For Large desktops have screen > 1200px",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column2",
+            "label": "#Column 2",
+            "default": "3",
+			"info": "For Tablets have screen 991px to 1199px.",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column3",
+            "label": "#Column 3",
+			"info": "For Tablets have screen 768px to 991px.",
+            "default": "2",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column4",
+            "label": "#Column 4",
+            "default": "2",
+			"info": "For Smartphones landscape have screen 480px to 767px",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+        {
+            "type": "select",
+            "id": "column5",
+            "label": "#Column 5",
+            "default": "1",
+            "info": "For Smartphones have screen 0px to 479px.",
+            "options":[
+                {
+                    "value": "1",
+                    "label": "1"
+                },
+                {
+                    "value": "2",
+                    "label": "2"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "row",
+            "label": "Sellect Row",
+            "default": "1",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	}
+            ]
+        },
+        {
+            "type": "text",
+            "id": "limit",
+            "label": "Limit Item",
+            "default": "8"
+        },
+        {
+            "type": "checkbox",
+            "id": "owl_navigation",
+            "label": "Show navigation",
+            "default": true
+        },
+		{
+            "type": "text",
+            "id": "owl_margin",
+            "label": "Margin Item",
+            "default": "30"
+        },
+        {
+            "type": "checkbox",
+            "id": "owl_autoplay",
+            "label": "Owl Auto Play",
+            "default": false
+        },
+        {
+            "type": "text",
+            "id": "owl_autoplay_speed",
+            "label": "Owl Auto Play speed",
+            "info": "Default: 10000(ms)",
+            "default": "10000"
+        },
+        {
+            "type": "text",
+            "id": "owl_speed",
+            "label": "Owl Speed",
+            "info": "Slide/Fade animation speed",
+            "default": "300"
+        }
+	],
+	"presets": [
+        {
+            "name": "Home Page Products",
+            "category": "Product",
+            "settings": {
+                "list_collection": "frontpage"
+            }
+        }
+    ]
+}
+{% endschema %}

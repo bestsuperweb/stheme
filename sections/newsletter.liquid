@@ -1,0 +1,79 @@
+<div class="newsletter-section{% if section.settings.show_background %} index-section--newsletter-background{% endif %}">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        {% if section.settings.title != blank %}
+          <h2>{{ section.settings.title | escape }}</h2>
+        {% else %}
+        	<h2>STAY UP</h2>
+        {% endif %}        
+      </div>
+      <div class="col-sm-4">
+        {% if section.settings.subtitle != blank %}
+          <p>{{ section.settings.subtitle | escape }}</p>
+        {% else %}
+        	<p>LOREM IPSUM DOLOR SIT AMET, CONSECTETUER ADIPISCING ELIT, SED DIAM NONUMMY NIBH EUISMOD TINCIDUNT UT LAOREET DOLORE MAGNA ALIQUAM ERAT</p>
+        {% endif %}
+      </div>
+      <div class="col-sm-4">
+        {% form 'customer' %}
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+            <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+          {% else %}
+            <div class="form-group">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input type="text" placeholder="Name" class="form-control newsletter__input" >
+              <input type="email"
+                name="contact[email]"
+                id="Email"
+                class="form-control newsletter__input"
+                value="{% if customer %}{{ customer.email }}{% endif %}"
+                placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                autocorrect="off"
+                autocapitalize="off">
+              <button type="submit" class="btn btn-block newsletter__submit" name="commit" id="Subscribe">
+                  <span class="newsletter__submit-text--large">SUBMIT</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "class": "index-section index-section--flush",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Subscribe to our newsletter"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtext",
+        "default": "A short sentence describing what someone will receive by subscribing"
+      },
+      {
+        "id": "show_background",
+        "type": "checkbox",
+        "label": "Show background",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+      }
+    ],
+    "presets": [{
+      "name": "Newsletter signup",
+      "category": "Promotional"
+    }]
+  }
+{% endschema %}

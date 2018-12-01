@@ -1,0 +1,88 @@
+
+<div class="container page-faq">
+  <div class="row">
+    <div class="wrap-accordion">
+      <div class="container">
+        <div class="panel-group" id="accordion">
+          {% for block in section.blocks %}
+          {% case block.type %}
+          {% when 'faq' %}  
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel{{ forloop.index }}"><i class="fa {% if forloop.first %}fa-minus{% else%}fa-plus{% endif %}"></i>{{ block.settings.question }}</a>
+              </h4>
+
+            </div>
+            <div id="panel{{ forloop.index }}" class="panel-collapse collapse {% if forloop.first %}in{% endif %} ">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-4 col-md-4">
+                    {% if block.settings.img != blank %}
+                    
+                    <img class="img-responsive" alt="{{ block.settings.img.alt | default: shop.name }}" src="{{ block.settings.img | img_url: 'master' }}" />
+                    {% else %}
+                    <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/390x300" />
+                    
+                    {% endif %}
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-8 faq-des">
+                    {{ block.settings.answer }}                
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endcase %}
+          {% endfor %}           
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+{% schema %}
+    {
+    "name": "FAQ Page",
+	"max_blocks":6,
+    "settings": [
+	  {
+        "type": "header",
+        "content": "Setting Faq page"
+      }
+    ]
+,
+ "blocks": [
+        {
+            "type": "faq",
+            "name": "FAQ",
+            "settings": [
+              {
+                "type": "text",
+                "id": "question",
+                "label": "Question"
+              },
+				{
+                  "type": "html",
+                  "id": "answer",
+                  "label": "Answer",
+                  "default": "<p>Answer HTML content</p>"
+                },
+				{
+                "type": "image_picker",
+                "id": "img",
+                "label": "Image"
+              }
+			 
+
+
+            ]
+        }
+    ]
+  }
+{% endschema %}
+
+

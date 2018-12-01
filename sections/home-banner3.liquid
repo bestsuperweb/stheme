@@ -1,0 +1,176 @@
+<div class="banner-slider widget-slideshow">
+  <div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+    {% if section.blocks.size > 0 %}
+    <div class="slideshow-wrapper">
+          <div class="slideshow--{{ section.settings.slideshow_height }}" id="Slideshow-{{ section.id }}"  
+               data-autoplay="{{ section.settings.autoplay }}" 
+               data-speed="{{ section.settings.autoplay_speed }}"
+               data-navigation="{{ section.settings.navigation }}"
+               data-pagination="{{ section.settings.pagination }}">
+            
+            {% for block in section.blocks %}
+            {%- assign is_background_video = false -%}
+            <div class="slideshow__slide slideshow__slide--{{ block.id }}" {{ block.shopify_attributes }}>
+              {%- assign imageSize = section.settings.image_size -%}
+              {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="slideshow__link">
+                {% endif %}
+                 <div class="slideshow-img" data-image="{{ block.settings.image | img_url:'master' }}">
+                   {% if block.settings.image != blank %}
+                   <img class="img-responsive" alt="{{ block.settings.image.alt | default: shop.name }}" src="{{ block.settings.image | img_url:imageSize }}" />
+                   {% else %}
+                   <div class="ImagePlaceholder">
+                     <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ imageSize }}" />
+                   </div>
+                   {% endif %}
+                 </div>
+                {% if block.settings.enable_caption %}
+                <div class="slideshow__text-wraps{% if block.settings.title != blank or block.settings.subheading != blank %} slideshow__overlays{% endif %}">
+                  <div class="slideshow__text-content">
+                    <div class="page-width">
+                      {% unless block.settings.title == blank %}
+                      <h2 class="h1 mega-title slideshow__title{% if settings.link != blank %} slideshow__title--has-link{% endif %}{% if section.settings.text_size == 'large' %} mega-title--large{% endif %}">
+                        {{ block.settings.title | escape }}
+                      </h2>
+                      {% endunless %}
+                      {% unless block.settings.subheading == blank %}
+                      <span class="mega-subtitle slideshow__subtitle{% if section.settings.text_size == 'large' %} mega-subtitle--large{% endif %}">
+                        {{ block.settings.subheading | escape }}
+                      </span>
+                      {% endunless %}
+                      {% unless block.settings.buttonlabel == blank %}
+                      <a class="btn-label" href="{{ block.settings.link }}">
+                        {{ block.settings.buttonlabel | escape }}
+                      </a>
+                      {% endunless %}
+                    </div>
+                  </div>
+                </div>
+				{% endif %}
+                {% if block.settings.link != blank %}
+              </a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    {% endif %}
+    {% if section.blocks.size == 0 %}
+    <div class="placeholder-noblocks">
+      {{ 'homepage.onboarding.no_content' | t }}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Banner Slideshow",
+    "class": "home-section",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto-rotate slides",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "navigation",
+        "label": "Show Prev/Next arrows",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "pagination",
+        "label": "Show dot indicators",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+	  {
+            "type": "text",
+            "id": "image_size",
+            "label": "Image size",
+			"default": "880x430"
+        	
+        }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+			
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+			{
+            "type": "header",
+            "content": "Info Caption Slideshow"
+          },
+		  {
+              "type": "checkbox",
+              "id": "enable_caption",
+              "label": "Enable Caption Slide",
+			  "default": false
+            },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Image slide"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through video and images"
+          },
+		  {
+            "type": "text",
+            "id": "buttonlabel",
+            "label": "Button Label",
+            "default": "MORE INFO"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Slide link"
+          }
+        ]
+      }
+    ],
+
+    "presets": [{
+      "name": "Banner Slideshow",
+      "category": "Image",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": "5000"
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}

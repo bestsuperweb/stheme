@@ -1,0 +1,44 @@
+<div class="collection-info">
+  
+  <div class="collection_image">    
+    <p>
+      {% if collection.image %}
+      <img src="{{ collection.image | img_url: 'master' }}" alt="{{ collection.title | split: '|' | first }}" />
+     {% else %}
+        {% capture current %}{% cycle 2%}{% endcapture %}
+        {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+       {% endif %}
+    </p>
+  </div>
+
+  {% if section.settings.show_collection_descrip and collection.description %}
+  <div class="collection-des">
+    <p>{{ collection.description }}</p>
+  </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+"name": "Collection Header",
+"settings": [
+      {
+        "type": "checkbox",
+        "id": "display_image_cat",
+        "label": "Display Image Category?",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "img_cat",
+        "label": "Image Category"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collection_descrip",
+        "label": "Show collection descrip",
+        "default": true
+      }
+  	]
+  }
+{% endschema %}

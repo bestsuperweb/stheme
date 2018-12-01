@@ -1,0 +1,261 @@
+
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'menu' %}
+	{% if block.settings.display_cate %}
+      <div class="block widget-categories spaceBlock">
+        <h3 class="block-title">{{ block.settings.title_cate }}</h3>
+        <div class="block-content">
+          <ul>
+            {% if block.settings.show_categories == 'show_alls' %}
+            {% for category in collections %}
+            <li>
+              <a href="{{ category.url }}" {% if collection.handle == category.handle %}class="active"{% endif %}>              
+                {{ category.title }}
+              </a>
+            </li>     
+            {% endfor %}
+            {% else %}
+
+            {% assign items = block.settings.categories_items | split:"," | strip | downcase %}
+            {% for category in collections %}
+            {% assign cat = category.title | downcase %}
+            {% if items contains cat %}
+            <li>
+              <a href="{{ category.url }}" {% if collection.handle == category.handle %}class="active"{% endif %}>              
+                {{ category.title }}
+              </a>
+            </li>     
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+	{% when 'bestseller_product' %}
+    {% if block.settings.bs_enable %}
+      <div class="block widget-prd-featured spaceBlock">
+        {% if block.settings.bs_title != blank %}
+            <h3 class="block-title">{{ block.settings.bs_title }}</h3>
+        {% endif %}
+        {% if block.settings.collection == blank %}
+       		<div class="product-item no-product">
+             <a href="#" class="center">
+                 {% capture current %}{% cycle 1 %}{% endcapture %}
+                 {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+               </a>
+             <div class="product-name"><strong>This is Product Demo</strong></div>
+             <div class="price">
+              <span class="price-new"> $999.00 </span>
+             </div>
+           </div>
+        {% else %}
+          {% for product in collections[block.settings.collection].products limit:block.settings.bs_limit %}
+              {% include 'product-item' %} 
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+	{% when 'banner' %}
+	{% if block.settings.enable_img %}
+      <div class="block sidebar-banner spaceBlock banners">
+        <div>
+        {% if block.settings.image_sidebar != blank %}
+          <a href="{{ block.settings.banner_sidebar_link }}" title="">
+            {%- assign img_url = block.settings.image_sidebar | img_url: '270x' -%}
+            <img class="img-responsive" alt="{{ block.settings.image_sidebar.alt | default: shop.name }}" src="{{ block.settings.image_sidebar | img_url: 'master' }}" />
+          </a>
+        {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        	
+        {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {% when 'tag' %}
+    {% if block.settings.tag_enable %}
+      <div class="block widget-tags spaceBlock">
+        <h3 class="block-title">{{ block.settings.tag_title }}</h3>
+        <div class="block-content">
+          <ul>
+            {% for tag in product.tags limit:block.settings.limit_tags %}
+			{% capture url %}/collections/all/{{ tag | handle }}{% endcapture %}            
+            <li>{{ tag | link_to: url }}</li>                        
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+     {% endif %}
+  {% endcase %}
+{% endfor %}
+{% schema %}
+{
+  "name": "Product Sidebar",
+  "class": "col-xs-12 col-md-3 hidden-sm sidebar-product",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sidebar_detail",
+      "label": "Enable Sidebar ?",
+      "default": true
+    },
+    { 
+      "type": "radio",
+      "id": "show_sidebar",
+      "label": "Show Sidebar Layout: ",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Sidebar Categories",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "display_cate",
+          "label": "Show Categories",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title_cate",
+          "label": "Title Categories",
+		  "default": "Categories"
+        },
+        {
+          "type": "radio",
+          "id": "show_categories",
+          "label": "Show all \/ Only a few categories",
+		  "default": "show_alls",
+          "options": [
+            {
+              "value": "show_alls",
+              "label": "Show all"
+            },
+            {
+              "value": "show_onlys",
+              "label": "Only show the selected category"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "categories_items",
+          "label": "List of categories",
+          "info": "Use \",\" to separate categories items if you have multiple categories. For ex: Shop, Collections"
+        }
+      ]
+    },
+	{
+        "type": "bestseller_product",
+        "name": "Sidebar Products",
+        "settings": [
+		 {
+          "type": "checkbox",
+          "id": "bs_enable",
+          "label": "Enable Product Sidebar?",
+          "default": true
+     	  },
+          {
+            "type": "text",
+            "id": "bs_title",
+            "label": "Title",
+			"default": "Best Sellers"
+          },
+          {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "bs_limit",
+            "label": "Number of products to show",
+            "default": "3"
+          }
+        ]
+      },
+		{
+        "type": "banner",
+        "name": "Sidebar Banner",
+        "settings": [
+		 {
+            "type": "checkbox",
+            "id": "enable_img",
+            "label": "Enable Banner Sidebar?",
+            "default": true
+          },
+          {
+            "type": "image_picker",
+            "id": "image_sidebar",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "banner_sidebar_link",
+            "label": "Banner Image Link"
+          }
+        ]
+      },
+      {
+        "type": "tag",
+        "name": "Sidebar Products Tag",
+        "settings": [
+		 {
+          "type": "checkbox",
+          "id": "tag_enable",
+          "label": "Enable Product Tag?",
+          "default": true
+     	  },
+          {
+            "type": "text",
+            "id": "tag_title",
+            "label": "Title",
+			"default": "Product Tags"
+          },
+      		{
+            "type": "text",
+            "id": "limit_tags",
+            "label": "Limit Tags",
+            "default": "8"
+
+          }
+        ]
+      }
+  ]
+}
+{% endschema %}
+<style>
+{% if section.settings.enable_sidebar_detail %}
+  @media (min-width: 992px) {
+    .template-product .sidebar-product { display: block!important; width: 25%!important; }
+    .template-product .main-product { width: 75%!important; }
+  }
+  @media (min-width: 768px) {
+  	.template-product .sidebar-product { display: block!important; }
+  }
+  @media (max-width: 767px) {
+    .template-product .sidebar-product { display: none; }	
+  }
+{% else %}
+  .template-product .sidebar-product { display: none!important; }
+  .template-product .main-product { width: 100%!important; }
+
+{% endif %}
+  {% if section.settings.show_sidebar == 'right' %}
+    .sidebar-product { float: right; }
+  {% endif %}
+</style>

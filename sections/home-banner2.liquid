@@ -1,0 +1,94 @@
+<div class="home-banner2 ov">
+  <div class="container">
+    <div class="row">
+      <div class="banner-left">
+          <div class="banner-home lef-banner banner-image">
+              {% if section.settings.image1 != blank %}
+              <img class="img-responsive" alt="{{ section.settings.image1.alt | default: shop.name }}" src="{{ section.settings.image1 | img_url: 'master' }}" />
+              {% else %}
+              <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/960x547" />
+              {% endif %}
+            <div class="content-banner">
+              <div class="text-banner">
+                {{ section.settings.banner11 }}
+              </div>
+              <a href="{{ section.settings.link1 }}">{{ section.settings.banner1 }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="banner-right">
+          <div class="banner-home lef-banner banner-image">
+              {% if section.settings.image2 != blank %}
+              <img class="img-responsive" alt="{{ section.settings.image2.alt | default: shop.name }}" src="{{ section.settings.image2 | img_url: 'master' }}" />
+              {% else %}
+              <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/960x547" />
+              {% endif %}
+            <div class="content-banner">
+              <div class="text-banner">
+                {{ section.settings.banner22 }}
+              </div>
+              <a href="{{ section.settings.link2 }}">{{ section.settings.banner2 }}</a>
+            </div>
+          </div>
+        </div>    
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Home Page Banner 2",
+  "class": "home-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Setting Banner "
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Banner image1"
+    },
+	{
+      "type": "textarea",
+      "id": "banner11",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link1",
+      "info": "Image link1"
+    },{
+      "type": "text",
+      "id": "banner1",
+      "label": "Button content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Banner image2"
+    },{
+      "type": "textarea",
+      "id": "banner22",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link2",
+      "info": "Image link2"
+    },{
+      "type": "text",
+      "id": "banner2",
+      "label": "Button content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Page Banner 2",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

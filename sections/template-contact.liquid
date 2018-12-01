@@ -1,0 +1,206 @@
+<div class="container page-contact">
+
+  <h2 class="page-title">{{ page.title }}</h2>
+  <div class="row">
+    <div class="contact-map-wrap col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      {% if section.settings.display_google_map %}
+      <div class="block-map">
+        <div class="block-content">
+          {% if section.settings.google_map_code != blank %}
+          {{ section.settings.google_map_code }}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% if section.settings.contact_text_desc != blank %}
+      <div class="contact-des">
+        {{ section.settings.contact_text_desc }}
+      </div>
+      {% endif %}	
+    </div>
+    <div class="contact-form col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      {% if page.content.size > 0 %}
+      <div class="rte">
+        {{ page.content }}
+      </div>
+      {% endif %}
+
+      <div class="contact-form form-vertical">
+        {% form 'contact' %}
+
+        {% if form.posted_successfully? %}
+        <p class="note form-success">
+          <i class="fa fa-check"></i>
+          {{ 'contact.form.post_success' | t }}
+        </p>
+        {% endif %}
+
+        {{ form.errors | default_errors }}
+
+        <div class="grid grid--half-gutters">
+          <div class="grid__item medium-up--one-half">
+            <label class="hidden" for="ContactFormName">{{ 'contact.form.name' | t }}</label>
+            <input type="text" id="ContactFormName" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+          </div>
+          <div class="grid__item medium-up--one-half">
+            <label class="hidden" for="ContactFormEmail" class="{% if form.errors contains 'email' %}label--error{% endif %}">{{ 'contact.form.email' | t }}</label>
+            <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}">
+          </div>
+        </div>
+
+        <label class="hidden" for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
+        <input type="tel" id="ContactFormPhone" name="contact[phone]"  placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+        <label class="hidden" for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+        <textarea rows="10" id="ContactFormMessage" placeholder="{{ 'contact.form.message' | t }}" name="contact[body]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+        <input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
+
+        {% endform %}	
+      </div>	
+    </div>
+  </div>
+  <div class="info-contacts">
+    <div class="row">
+      {% for block in section.blocks %}
+      {% case block.type %}
+      {% when 'tab_contact' %}
+      <div class="col-md-3 col-sm-6 col-xxs-6 store-info">
+        <ul class="list-info">
+          <li class="item-info main-info">
+            {%- if block.settings.icon_1 != blank -%}
+            <div class="icon-contact">
+              <img class="img-respon" alt="{{ section.settings.icon_1.alt | default: shop.name }}" src="{{ block.settings.icon_1 | img_url: 'master' }}" />
+            </div>
+            {%- endif -%}
+            <div class="info-content">
+              {% if block.settings.title_1 != blank %}
+              <h2><a title="Main office" href="#">{{ block.settings.title_1 }}</a></h2>
+              {% endif %}
+              {% if block.settings.des_1 != blank %}
+              <div class="des-info">{{ block.settings.des_1 }}</div>
+            </div>
+            {% endif %}
+          </li>
+          <li class="item-info email-info">
+            {%- if block.settings.icon_2 != blank -%}
+            <div class="icon-contact">
+              <img class="img-respon" alt="{{ section.settings.details_icon1.alt | default: shop.name }}" src="{{ block.settings.icon_2 | img_url: 'master' }}" />
+            </div>
+            {%- endif -%}
+            <div class="info-content">
+              {% if block.settings.title_2 != blank %}
+              <h2><a title="Main office" href="#">{{ block.settings.title_2 }}</a></h2>
+              {% endif %}
+              {% if block.settings.des_2 != blank %}
+              <div class="des-info">{{ block.settings.des_2 }}</div>
+            </div>
+            {% endif %}
+          </li>
+          <li class="item-info phone">
+            {%- if block.settings.icon_3 != blank -%}
+            <div class="icon-contact">
+              <img class="img-respon" alt="{{ section.settings.details_icon1.alt | default: shop.name }}" src="{{ block.settings.icon_3 | img_url: 'master' }}" />
+            </div>
+            {%- endif -%}
+            <div class="info-content">
+              {% if block.settings.title_3 != blank %}
+              <h2>{{ block.settings.title_3 }}</h2>
+              {% endif %}
+              {% if block.settings.des_3 != blank %}
+              <div class="des-info">{{ block.settings.des_3 }}</div>
+            </div>
+            {% endif %}
+          </li>
+
+        </ul>
+      </div>
+
+      {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+    {
+    "name": "Contact Page",
+    "settings": [
+	  {
+        "type": "header",
+        "content": "Setting Contact"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_google_map",
+        "label": "Display Google Map?",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "google_map_code",
+        "label": "Google Map Code"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_text_desc",
+        "label": "Text Description"
+      }
+    ],
+ "blocks": [
+        {
+            "type": "tab_contact",
+            "name": "Contact Tab Info",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title_1",
+                    "label": "Title 1"
+                },
+                {
+                    "type": "text",
+                    "id": "des_1",
+                    "label": "Descrip 1"
+                },
+				{
+					"type": "image_picker",
+					"id": "icon_1",
+					"label": "Icon 1"
+				},
+				{
+                    "type": "text",
+                    "id": "title_2",
+                    "label": "Title 2"
+                },
+                {
+                    "type": "text",
+                    "id": "des_2",
+                    "label": "Descrip 2"
+                },
+				{
+					"type": "image_picker",
+					"id": "icon_2",
+					"label": "Icon 2"
+				},
+				{
+                    "type": "text",
+                    "id": "title_3",
+                    "label": "Title 3"
+                },
+                {
+                    "type": "text",
+                    "id": "des_3",
+                    "label": "Descrip 3"
+                },
+				{
+					"type": "image_picker",
+					"id": "icon_3",
+					"label": "Icon 3"
+				}
+            ]
+        }
+    ]
+  }
+{% endschema %}
+

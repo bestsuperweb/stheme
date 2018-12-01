@@ -1,0 +1,76 @@
+{% if section.settings.show %}
+<div class="banner-collection">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="banner-home lef-banner banner-image">
+          {% if section.settings.link1 != blank %}
+          <a href="{{ section.settings.link1 }}" title="{{ section.settings.link1.alt | default: shop.name }}">
+            {% endif %}
+            {% if section.settings.image1 != blank %}
+            <img class="img-responsive" alt="{{ section.settings.image1.alt | default: shop.name }}" src="{{ section.settings.image1 | img_url: 'master' }}" />
+            {% else %}
+            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/960x550" />
+            {% endif %}
+            {% if section.settings.link1 != blank %}
+              <span class="yf">{{ section.settings.banner1 }}</span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="banner-home right-banner banner-image">
+          {% if section.settings.link2 != blank %}
+          <a href="{{ section.settings.link2 }}" title="{{ section.settings.link2.alt | default: shop.name }}">
+            {% endif %}
+            {% if section.settings.image2 != blank %}
+            <img class="img-responsive" alt="{{ section.settings.image2.alt | default: shop.name }}" src="{{ section.settings.image2 | img_url: 'master' }}" />
+            {% else %}
+            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/960x550" />
+            {% endif %}
+            {% if section.settings.link2 != blank %}              
+            <span class="yf">{{ section.settings.banner2 }}</span>
+
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</div>
+{% endif %}
+{% schema %}
+{
+"name": "Collection Bottom Banner",
+"settings": [
+    {
+      "type": "header",
+      "content": "Setting Banner "
+    },{
+      "type": "checkbox",
+      "id": "show",
+      "label": "Show section?"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Banner image1"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link1",
+      "info": "Image link1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Banner image2"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link2",
+      "info": "Image link2"
+    }
+  	]
+  }
+{% endschema %}

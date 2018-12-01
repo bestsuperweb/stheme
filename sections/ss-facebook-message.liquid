@@ -1,0 +1,154 @@
+{% if section.settings.status %}
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+  <div class="ss-fb-message {{ section.settings.position }}" style="width: {{ section.settings.width }}px">
+    <div class="ss-fb-ms-inner" style="display: none;">
+      <div class="offline_heading" style="width: {{ section.settings.width | minus: 2 }}px">
+        <label class="button_chat_offline_text">{{ section.settings.widget_text }}</label>
+        <i class="fa fa-angle-down shrink_icon"></i>
+      </div>
+      <div class="fb-page" 
+           data-href="{{ section.settings.page_url }}" 
+           data-tabs="{{ section.settings.tabs }}" 
+           data-width="{{ section.settings.width }}" 
+           data-height="{{ section.settings.height }}" 
+           data-small-header="{% if section.settings.small_header %}true{% else %}false{% endif %}" 
+           data-adapt-container-width="true" 
+           data-hide-cover="{% if section.settings.hide_cover %}true{% else %}false{% endif %}" 
+           data-show-facepile="{% if section.settings.show_facepile %}true{% else %}false{% endif %}">
+        <blockquote cite="{{ section.settings.page_url }}" class="fb-xfbml-parse-ignore">
+          <a href="{{ section.settings.page_url }}">{{ section.settings.name }}</a>
+        </blockquote>
+      </div>
+    </div>
+    <div class="ss-fb-ms-bottom ss-fb-message-style-{{ section.settings.button_style }}">
+      {% if section.settings.button_style == 'default' %}
+      <div class="ss-fb-ms-heading ss-fb-message-head">
+        <img class="online" src="{{ 'online.png' | asset_img_url }}" alt="online"/>{{ section.settings.widget_text }}
+      {% else if setting.button_style == 'metro' %}
+      <div class="ss-fb-ms-heading ss-fb-message-head-metro">
+        <a href="javascript:void(0)"><span></span>{{ section.settings.widget_text }}</a>
+      {% else if setting.button_style == 'icon' %}
+      <div class="ss-fb-ms-heading ss-fb-message-head-icon">
+        <img src="{{ 'fbmessenger.svg' | asset_img_url }}" style="width:50px;" />
+      {% endif %}
+      </div>
+	</div>
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Widget Facebook Message",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "status",
+        "label": "Status",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "position",
+        "label": "Position",
+        "default": "right-bottom",
+        "options": [
+          {"value": "right-bottom", "label": "Right - Bottom"},
+          {"value": "left-bottom", "label": "Left - Bottom"}
+        ]
+      },
+		{
+			"type": "number",
+			"id": "width",
+			"label": "Width",
+			"default": 320
+		},
+		{
+			"type": "number",
+			"id": "height",
+			"label": "Height",
+			"default": 250
+		},
+		{
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "default": "default",
+          "options": [
+            {"value": "default", "label": "Default"},
+            {"value": "metro", "label": "Metro UI"},
+			{"value": "icon", "label": "Facebook Messenger Icon"}
+          ]
+        },
+		{
+			"type": "text",
+			"id": "widget_text",
+			"label": "Widget Text",
+			"default": "Chat with Us"
+		},
+		{
+			"type": "text",
+			"id": "page_url",
+			"label": "Facebook Page URL",
+			"default": "https://www.facebook.com/MagenTech"
+		},
+        {
+          "type": "select",
+          "id": "tabs",
+          "label": "Display Tabs",
+          "default": "messages",
+          "options": [
+            {"value": "messages", "label": "Messages"},
+            {"value": "timeline", "label": "Timeline"},
+            {"value": "events", "label": "Events"}
+      	  ]
+      	},
+		{
+			"type": "checkbox",
+			"id": "small_header",
+			"label": "Use Small Header",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "hide_cover",
+			"label": "Hide Cover",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_facepile",
+			"label": "Show Facepile",
+			"default": false
+		}
+	],
+    "presets": [
+      {
+        "name": "Widget Facebook Message",
+        "category": "Magentech"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+	jQuery(document).ready(function($) {
+		$(document).on('click', '.ss-fb-ms-bottom', function() {
+			$('.ss-fb-ms-inner').show();
+			$(this).hide();
+		})
+
+		$(document).on('click', '.offline_heading', function() {
+			$('.ss-fb-ms-inner').hide();
+			$('.ss-fb-ms-bottom').show();
+		})
+	})
+{% endjavascript %}

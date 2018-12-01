@@ -1,0 +1,198 @@
+<div class="container page-price">
+  <div class="row">
+<div class="page-pricing">
+  <div class="grid">
+    <div class="container">
+
+      <div class="wrap">
+      
+           <div class="price-table {{ section.settings.collum  }}  {{ section.settings.price_style  }}">
+       		<h3 class="price-title">{{ section.settings.price-title }}</h3>
+             
+           <ul class="pricing_table">
+             
+            {% for block in section.blocks %}
+            {% case block.type %}
+            {% when 'price' %}              
+      		<li class="price_block">
+      			<h3>{{ block.settings.option }}</h3>
+             	 {% if block.settings.dp_label %}
+                <div class="p_label" style="background:url( {{ block.settings.label_img | img_url: 'master' }} ) center;"></div> 
+              	{% endif %}
+      			<ul class="features">
+                  {% if block.settings.option1 !=blank %}
+      				<li>{{ block.settings.option1 }}</li>
+                  {% endif %}
+      				{% if block.settings.option2 !=blank %}
+      				<li>{{ block.settings.option2 }}</li>
+                  {% endif %}
+      				{% if block.settings.option3 !=blank %}
+      				<li>{{ block.settings.option3 }}</li>
+                  {% endif %}
+                  {% if block.settings.option4 !=blank %}
+      				<li>{{ block.settings.option4 }}</li>
+                  {% endif %}
+                  {% if block.settings.option5 !=blank %}
+      				<li>{{ block.settings.option5 }}</li>
+                  {% endif %}
+                  {% if block.settings.option6 !=blank %}
+      				<li>{{ block.settings.option6 }}</li>
+                  {% endif %}
+                  {% if block.settings.option7 !=blank %}
+      				<li>{{ block.settings.option7 }}</li>
+                  {% endif %}
+                  {% if block.settings.option8 !=blank %}
+      				<li>{{ block.settings.option8 }}</li>
+                  {% endif %}
+      			</ul>
+              {% if block.settings.option9 !=blank %}
+            <div class="price">
+      				<div class="price_figure">
+                {{ block.settings.option9 }}
+      				</div>
+      			</div>
+              {% endif %}
+              {% if block.settings.option10 !=blank %}
+      			<div class="footer">
+      				<a href="#" class="action_button">{{ block.settings.option10 }}</a>
+      			</div>
+              {% endif %}
+      		</li>
+            {% endcase %}
+            {% endfor %}  
+             
+      	</ul>
+		</div>
+        
+	  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+{% schema %}
+    {
+    "name": "Price Page",
+    "settings": [
+	  {
+        "type": "header",
+        "content": "Setting Price page"
+    	  },
+	{
+       "type": "text",
+        "id": "price-title",
+        "label": "Price title"
+     },
+   	 {
+      "type": "select",
+      "id": "price_style",
+      "label": "Price Style",
+      "options": [
+        { "value": "price-style1", "label": "Style 1" },
+        { "value": "price-style2", "label": "Style 2" },
+        { "value": "price-style3", "label": "Style 3" },
+		{ "value": "price-style4", "label": "Style 4" },
+		{ "value": "price-style5", "label": "Style 5" }
+      ],
+      "default": "price-style1"
+    },
+	{
+      "type": "select",
+      "id": "collum",
+      "label": "Collum",
+      "options": [
+        { "value": "collum1", "label": "1 collum" },
+        { "value": "collum2", "label": "2 collum" },
+        { "value": "collum3", "label": "3 collum" },
+		{ "value": "collum4", "label": "4 collum" },
+		{ "value": "collum5", "label": "5 collum" }
+      ],
+      "default": "collum4"
+    }
+    ],
+ "blocks": [
+        {
+            "type": "price",
+            "name": "Price Info",
+            "settings": [
+				{
+                    "type": "checkbox",
+                    "id": "dp_label",
+                    "label": "Display label"
+                },
+				{
+                    "type": "image_picker",
+                    "id": "label_img",
+                    "label": "Label image"
+                },
+				{
+                    "type": "text",
+                    "id": "option",
+                    "label": "Title option"
+                },
+                {
+                    "type": "text",
+                    "id": "option1",
+                    "label": "Option 1",
+					"default":"1GB Storage"
+                },
+				{
+                    "type": "text",
+                    "id": "option2",
+                    "label": "Option 2",
+					"default":"2 clients"
+                },
+				{
+                    "type": "text",
+                    "id": "option3",
+                    "label": "Option 3",
+					"default":"5 Active projects"
+                },
+				{
+                    "type": "text",
+                    "id": "option4",
+                    "label": "Option 4",
+					"default":"5 Colors"
+                },
+				{
+                    "type": "text",
+                    "id": "option5",
+                    "label": "Option 5",
+					"default":"Free Goddies"
+                },
+				{
+                    "type": "text",
+                    "id": "option6",
+                    "label": "Option 6",
+					"default":"24/7 Email Support"
+                },
+				{
+                    "type": "text",
+                    "id": "option7",
+                    "label": "Option 7"
+                },
+				{
+                    "type": "text",
+                    "id": "option8",
+                    "label": "Option 8"
+                },
+				{
+                    "type": "text",
+                    "id": "option9",
+                    "label": "Price"
+                }
+				,
+				{
+                    "type": "text",
+                    "id": "option10",
+                    "label": "Button text"
+                }
+            ]
+        }
+    ]
+  }
+{% endschema %}
+

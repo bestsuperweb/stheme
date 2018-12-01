@@ -1,0 +1,99 @@
+{% schema %}
+  {
+    "name": "Homepage All Products",
+	"class": "home-section",
+    "settings": [
+		{
+          	"type": "header",
+          	"content": "All Products Settings"
+        },
+		{
+          "type": "text",
+          "id": "home-find-mat",
+          "label": "Title"
+        }
+	],
+	"presets": [
+        {
+            "name": "Home Page All Products",
+            "category": "Product",
+			"settings": {
+                
+            }
+        }
+    ]
+  }
+{% endschema %}
+<div class="find-mat">
+  <div class="container">
+    <div class="find-mat-wrap">
+      <h1>
+        {{ section.settings.home-find-mat }}
+      </h1>
+      <div class="find-mat-click">
+        <div class="row home-search" >
+          <form action="/search" method="get">
+            <div class="col-xs-10">
+            <input type="hidden" name="type" value="product" />
+            <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="SEARCH BY KEYWORD" class="form-control" />
+            </div>
+            <div class="col-xs-2">
+            <button type="submit" class="btn btn-search">
+              SEARCH
+            </button>
+            </div>
+          </form>
+        </div>
+        <hr>
+        <div class="row home-collections">
+          {% for category in collections %}
+          <div class="col-sm-3">
+            <h5 class="home-category">{{ category.title }}</h5>
+            <ul class="home-products">
+              {% for product in category.products %}
+                  <li>
+                    <span>{{product.title}}</span>
+                    <input type="checkbox" class="pull-right" />
+                  </li>
+              {% endfor %}
+            </ul>
+          </div>        
+          {% endfor %}
+        </div>
+        <hr>
+      </div>
+      
+  	</div>
+  </div>
+</div>
+<div>
+  <div class="container" style="margin-top: 40px;">
+    {% paginate collections['all'].products by 9 %}
+    	<div class="row">      
+          {% for product in collections['all'].products %}
+			<div class="col-sm-4" >
+              <a href="{{ product.url }}" >
+              	<img src="{{ product.featured_image.src | product_img_url:'large' }}" 
+                     class="img-responsive" 
+                     style="background-color: #fff;" />
+              </a>
+		    </div>
+          	{% if forloop.index == 3 or forloop.index == 6 or forloop.index == 9 %}
+	            <div class="clearfix" style="margin: 25px 0;"></div>
+            {% endif %}
+          {% endfor %}            
+    	</div>
+    	<div class="home-pagination">
+		    {{ paginate | default_pagination: next: '', previous: '' }}
+	    </div>
+    {% endpaginate %}    
+  </div>
+</div>
+
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

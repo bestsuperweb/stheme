@@ -1,0 +1,159 @@
+{% if section.settings.status %}
+<script type="text/javascript">
+  //<![CDATA[
+  data = new Date(2013,10,26,12,00,00);
+  var listdeal = [];
+  function CountDown(date,id){
+    dateNow = new Date();
+    amount = date.getTime() - dateNow.getTime();
+    delete dateNow;
+    if(amount < 0){
+      document.getElementById(id).innerHTML="Now!";
+    } else{
+      days=0;hours=0;mins=0;secs=0;out="";
+      amount = Math.floor(amount/1000);
+      days=Math.floor(amount/86400);
+      amount=amount%86400;
+      hours=Math.floor(amount/3600);
+      amount=amount%3600;
+      mins=Math.floor(amount/60);
+      amount=amount%60;
+      secs=Math.floor(amount);
+      if(days != 0){out += "<div class='time-item time-day'>" + "<div class='num-time'>" + days + "</div>" +" <div class='name-time'>"+((days==1)?"Day":"Days") + "</div>"+"</div> ";}
+      if(hours != 0){out += "<div class='time-item time-hour'>" + "<div class='num-time'>" + hours + "</div>" +" <div class='name-time'>"+((hours==1)?"Hour":"Hours") + "</div>"+"</div> ";}
+      out += "<div class='time-item time-min'>" + "<div class='num-time'>" + mins + "</div>" +" <div class='name-time'>"+((mins==1)?"Min":"Mins") + "</div>"+"</div> ";
+      out += "<div class='time-item time-sec'>" + "<div class='num-time'>" + secs + "</div>" +" <div class='name-time'>"+((secs==1)?"Sec":"Secs") + "</div>"+"</div> ";
+      out = out.substr(0,out.length-2);
+      document.getElementById(id).innerHTML=out;
+      setTimeout(function(){CountDown(date,id)}, 1000);
+    }
+  }
+  //]]>
+</script>
+<div id="so_popup_countdown" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="width: {{ section.settings.width }}px; height: auto;">
+    <div class="modal-header">
+      <h2>{{ section.settings.heading_title }}</h2>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-content">
+      {{ section.settings.description }}
+    </div>
+    <div class="modal-footer">
+      {% if section.settings.banner %}
+        {% if section.settings.link_banner %}
+        <a href="{{ section.settings.link_banner }}" target="_blank">
+          <img src="{{ section.settings.banner | img_url: 'master' }}" alt="{{ section.settings.heading_title }}" style="max-width: {{ section.settings.width }}px" />
+        </a>
+        {% else %}
+          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/770x155" />
+     
+        {% endif %}
+      {% endif %}
+      {% if section.settings.display_countdown %}
+      <div id="so_countdown_timer"></div>
+      <script type="text/javascript">
+        //<![CDATA[
+        if (!isNaN(Date.parse('{{ section.settings.date_end }}'))) {
+        	listdeal.push('so_countdown_timer{{ "&&||&&"}}{{ section.settings.date_end }}');
+        }
+		//]]>
+      </script>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    function dontShowPopup(){
+      $.cookie('ss_visited', 'yes', { expires: 1 });
+    }
+    var ss_visited = $.cookie('ss_visited');
+    if (ss_visited == 'yes') {
+      return false;
+    } else {
+      $('#so_popup_countdown').modal();
+    }
+    
+    $(document).on('click', '#so_popup_countdown .close', function() {
+      dontShowPopup();
+    })
+  });
+  
+  window.onload=function(){
+    if(listdeal.length > 0){
+        for(i=0;i<listdeal.length;i++)
+        {
+            var arr = listdeal[i].split("&&||&&"); 
+            var data = new Date(arr[1]);
+            CountDown(data, arr[0]);
+        }   
+    }
+  };
+</script>
+{% endif %}
+{% schema %}
+  {
+    "name": "Widget CountDown Popup",
+	"class": "hidden-sm hidden-xs",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "status",
+        "label": "Status",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "width",
+        "label": "Popup Width",
+        "default": 771
+      },
+      {
+        "type": "checkbox",
+        "id": "display_countdown",
+        "label": "Display Countdown",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "date_end",
+		"label": "Date Expire",
+		"info": "Format yyyy/mm/dd"
+      },
+      {
+        "type": "text",
+        "id": "heading_title",
+        "label": "Heading Title",
+		"default": "Choose Quick Collection"
+      },
+      {
+        "type": "html",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner",
+        "label": "Banner Countdown"
+      },
+      {
+        "type": "text",
+        "id": "link_banner",
+        "label": "Link Banner"
+      }
+	],
+    "presets": [
+      {
+        "name": "Widget CountDown Popup",
+        "category": "Magentech"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}	
+{% endjavascript %}

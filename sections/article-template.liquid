@@ -1,0 +1,87 @@
+<div class="section-article-info">
+  <h1 class="article__title">{{ article.title }}</h1>
+  {% if section.settings.blog_show_author %}
+    <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+  {% endif %}
+
+  {% if section.settings.blog_show_date %}
+    <span class="article__date">
+      {{ article.published_at | time_tag: format: 'month_day_year' }}
+    </span>
+  {% endif %}
+</div>
+<div class="article-img">
+	<img src="{{ article.image.src | img_url: 'master' }}">
+</div>
+<div class="rte" itemprop="articleBody">
+  {{ article.content }}
+</div>
+
+{% if section.settings.show_share_buttons %}
+  {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Posts",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Blogs Text"
+    },
+    {
+      "type":      "range",
+      "id":        "font_size_title",
+      "min":       12,
+      "max":        18,
+      "step":       1,
+      "unit":       "px",
+      "label":     "Font size Title Blogs",
+      "default":   18
+    },
+    {
+      "type": "color",
+      "id": "text_blog",
+      "label": "Title Blogs Color",
+      "default": "#444"
+    },
+    {
+      "type": "color",
+      "id": "text_des_blog",
+      "label": "Des Text Color",
+      "default": "#666"
+    }
+  ]
+}
+{% endschema %}
+
+
+<style> 
+  h1.article__title{
+    font-size: {{ section.settings.font_size_title }}px;
+    color: {{ section.settings.text_blog }};
+    margin: 0 0 10px;
+  }
+  .rte span{
+    color: {{ section.settings.text_des_blog }};
+  }
+
+</style> 

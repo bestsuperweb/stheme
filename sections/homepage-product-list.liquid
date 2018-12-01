@@ -1,0 +1,163 @@
+{% assign limit = section.settings.limit | plus: 0 %}
+{% assign grid_image_width = '170x210' %}
+<div class="section-product-list">
+  <div class="container">
+    {% if section.settings.title1 != blank %}
+    <div class="home-title"><h2>{{ section.settings.title1 }}</h2></div>
+    {% endif %}
+    <div class="row">
+      <div class="col-xs-12 col-md-4 col-sm-4">
+        {%- assign list_collection = section.settings.collection_handle1 -%}
+        <div class="products-listing grid">
+          <div class="product-layout block-content">
+            <div class="row">
+                {% for product in collections[list_collection].products limit:limit %}
+                <div class="col-xs-6 item">
+                  {% include 'product-mini' %}
+                </div>
+              	{% else %}
+              	<div class="row">
+                {% for product in (1..limit) %}
+                  <div class="col-xs-6 item no-product">
+                    <a href="#" class="grid-view-item__link">
+                      <div class="grid-view-item__image">
+                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                      <div class="product-title"><strong>Your Product's {{ forloop.index }}</strong></div>
+                    </a>
+                    <div class="price-box">
+                      <span> $100.00 </span>
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-4 col-sm-4">
+        <div class="wrap banners">
+         <div class="banner-home lef-banner banner-image">
+          {% if section.settings.link1 != blank %}
+          <a href="{{ section.settings.link1 }}" title="{{ section.settings.link1.alt | default: shop.name }}">
+            {% endif %}
+            {% if section.settings.image1 != blank %}
+            <img class="img-responsive" alt="{{ section.settings.image1.alt | default: shop.name }}" src="{{ section.settings.image1 | img_url: 'master' }}" />
+            {% else %}
+            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/370x370" />
+            {% endif %}
+            {% if section.settings.link1 != blank %}
+              <span class="yf">{{ section.settings.banner1 }}</span>
+          </a>
+          {% endif %}
+        </div>
+           <div class="banner-content">
+        {% if section.settings.title2 != blank %}
+        <div class="home-title"><h2>{{ section.settings.title2 }}</h2></div>
+          <p>{{ section.settings.title3 }}</p>
+             <a class="main-button" href="{{ section.settings.title4 }}"><span>{{ section.settings.title5 }}</span></a>
+        {% endif %}  
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-4 col-sm-4">
+        {%- assign list_collection = section.settings.collection_handle3 -%}
+        <div class="products-listing grid layout-default">
+          <div class="product-layout block-content">
+            <div class="row">
+                {% for product in collections[list_collection].products limit:limit %}
+                <div class="col-xs-6 item">
+                  {% include 'product-mini' %}
+                </div>
+              	{% else %}
+              	<div class="row">
+                {% for product in (1..limit) %}
+                  <div class="col-xs-6 item no-product">
+                    <a href="#" class="grid-view-item__link">
+                      <div class="grid-view-item__image">
+                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                      <div class="product-title"><strong>Your Product's {{ forloop.index }}</strong></div>
+                    </a>
+                    <div class="price-box">
+                      <span> $100.00 </span>
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% schema %}
+{
+	"name": "Home Page Product List",
+	"class": "home-section",
+	"settings":[
+		{
+            "type": "text",
+            "id": "title1",
+            "label": "Title",
+            "placeholder": "Title of section"
+        },
+        {
+            "type": "text",
+            "id": "limit",
+            "label": "Limit",
+            "default": "8"
+        },
+        {
+            "type": "collection",
+            "id": "collection_handle1",
+            "label": "1st Collection"
+        },
+        {
+            "type": "collection",
+            "id": "collection_handle3",
+            "label": "2rd Collection"
+        },{
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Banner"
+        },{
+            "type": "text",
+            "id": "link1",
+            "label": "Link banner",
+			"default":"#"
+        },{
+            "type": "text",
+            "id": "title2",
+            "label": "Title banner"
+        },{
+            "type": "text",
+            "id": "title3",
+            "label": "Description banner"
+        },{
+            "type": "text",
+            "id": "title4",
+            "label": "Link button"
+        },{
+            "type": "text",
+            "id": "title5",
+            "label": "Button content"
+        }
+	],
+	"presets": [
+        {
+            "name": "Home Page Product List",
+            "category": "Product",
+			"settings": {
+                
+            }
+        }
+    ]
+}
+{% endschema %}

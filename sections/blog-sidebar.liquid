@@ -1,0 +1,234 @@
+{% if section.settings.enable_sidebar_blog %}
+  
+
+  {% if section.settings.sidebar_recent %}
+  <div class="block widget-recent spaceBlock">
+    <h3 class="block-title">
+      {{ 'blogs.sidebar.recent_blogs' | t }}
+    </h3>
+    <div class="block-content">
+      <ul>
+        {% for article in blog.articles limit:section.settings.limit_recent %}
+        <li class="article">
+          <a href="{{ article.url }}">
+            {{ article.title | split: '|' | first }}
+
+          </a>
+          <p class="hidden">{{ article.published_at | date: "%B %d, %Y" }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+
+  {% for block in section.blocks %}
+  {% case block.type %}
+  {% when 'bestseller_product' %}
+  {% if block.settings.bs_enable %}
+  <div class="block widget-prd-featured spaceBlock">
+    {% if block.settings.bs_title != blank %}
+    <h3 class="block-title">{{ block.settings.bs_title }}</h3>
+    {% endif %}
+    <div class="block-content">
+    {% if block.settings.collection == blank %}
+    <div class="product-item no-product">
+      <a href="#" class="center">
+        {% capture current %}{% cycle 1 %}{% endcapture %}
+        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+      </a>
+      <div class="product-name"><strong>Yours Product Demo</strong></div>
+      <div class="price">
+        <span class="price-new"> $999.00 </span>
+      </div>
+    </div>
+    {% else %}
+    {% for product in collections[block.settings.collection].products limit:block.settings.bs_limit %}
+    {% include 'product-item' %} 
+    {% endfor %}
+    {% endif %}    
+    </div>
+  </div>
+  {% endif %}
+  {% when 'image' %}
+  {% if block.settings.image != blank %}
+  {%- assign img_url = block.settings.image | img_url: '1024x1024' -%}
+  {% else %}
+  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+  {% endif %}
+
+  <div class="block sidebar-banner spaceBlock">
+    {% if block.settings.link != blank %}
+    <a href="{{ block.settings.link }}">
+      {% endif %}
+      <img src="{{ img_url }}" alt="">
+      {% if block.settings.link != blank %}
+    </a>
+    {% endif %}
+  </div>
+
+  {% endcase %}
+  {% endfor %}
+
+  {% if section.settings.sidebar_tag %}
+  <div class="block widget-tags spaceBlock">
+    {% if blog.all_tags.size > 0 %}
+    <h3 class="block-title">{{ 'blogs.sidebar.tag_title' | t }}</h3>
+    <ul class="block-content">
+      {% for tag in blog.all_tags limit:section.settings.limit_tags %}
+
+        {% assign tag = tag |downcase %}
+        {% unless tag contains 'january' or tag contains 'february' or tag contains 'march' or tag contains 'april'  or tag contains 'may'  or tag contains 'june'  or tag contains 'july'  or tag contains 'august'  or tag contains 'september'  or tag contains 'october'  or tag contains 'november'  or tag contains 'december' %}
+          {% if current_tags contains tag %}
+          <li>{{ tag }}</li>
+          {% else %}
+          <li>{{ tag | link_to_tag: tag }}</li>
+          {% endif %}
+        {% endunless %}
+
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  {% endif %}
+ {% endif %}  
+<style>
+  {% if section.settings.enable_sidebar_blog %}
+    @media (min-width: 768px) {
+      .template-article .col-sidebar,
+      .template-blog .col-sidebar { display: block!important; }
+    }
+    @media (max-width: 767px) {
+      .template-article .col-sidebar,
+      .template-blog .col-sidebar  { display: none; }	
+      .template-article #displayTextLeft,
+      .template-blog #displayTextLeft { display: block; }
+    }
+  {% else %}
+     .template-article .col-sidebar,
+    .template-blog .col-sidebar  { display: none!important; }
+     .template-article .col-main,
+    .template-blog .col-main { width: 100%!important; }
+    @media (max-width: 767px) {
+       .template-article #displayTextLeft,
+      .template-blog #displayTextLeft { display: none; }
+    }
+  {% endif %}
+  {% if section.settings.show_sidebar == 'right' %}
+    .col-sidebar { float: right; }
+  {% endif %}
+</style>
+{% schema %}
+{
+  "name": "Sidebar Blogs",
+  "class": "col-xs-12 col-sm-4 col-md-3 col-sidebar",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sidebar_blog",
+      "label": "Enable Sidebar at Blog Page",
+      "default": true
+    },
+    { 
+      "type": "radio",
+      "id": "show_sidebar",
+      "label": "Show Sidebar Layout ",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+
+    {
+      "type": "header",
+      "content": "Recent Blogs"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_recent",
+      "label": "Enable Recent Blogs?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "limit_recent",
+      "label": "Limit Recent Blogs",
+	  "default": "4"
+    },
+	{
+      "type": "header",
+      "content": "Blogs Tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_tag",
+      "label": "Enable Blogs Tag?",
+      "default": true
+    },
+	{
+      "type": "text",
+      "id": "limit_tags",
+      "label": "Limit Tags Blogs",
+	  "default": "3"
+
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bestseller_product",
+      "name": "Sidebar Products",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "bs_enable",
+          "label": "Enable Product Sidebar?",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "bs_title",
+          "label": "Title",
+          "default": "Best Sellers"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "bs_limit",
+          "label": "Number of products to show",
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Block Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

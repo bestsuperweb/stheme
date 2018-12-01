@@ -1,0 +1,71 @@
+<div class="widget-services-v5">
+  <div class="container">
+    <div class="services-inline">
+      {% if section.settings.title != blank %}<h3 class="title-home hidden">{{ section.settings.title }}</h3>{% endif %}
+      <ul class="inner">
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        <li class="policy policy{{ forloop.index0 }}">
+          <div class="box-icon"></div>
+          <div class="service-info">
+            {% if block.settings.title != blank %}<h2 class="title">{{ block.settings.title }}</h2>{% endif %}
+            {% if block.settings.description != blank %}<p class="des">{{ block.settings.description }}</p>{% endif %}
+          </div>
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% schema %}
+    {
+        "name": "Home Page Services",
+        "class": "home-section",
+        "settings":[
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "placeholder": "Title",
+				"default": "false"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "box",
+                "name": "Service Item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title",
+                        "placeholder": "Title",
+						"default": "Free Shipping & Return"
+                    },
+					{
+                        "type": "text",
+                        "id": "description",
+                        "label": "Description",
+                        "placeholder": "Title",
+						"default": "Free shipping on orders over $49"
+                    }
+					
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Page Services",
+                "category": "Sevices",
+				"settings":{
+                    "title":"Home Page sevicer"
+                }
+            }
+        ]
+    }
+{% endschema %}

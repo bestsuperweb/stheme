@@ -1,0 +1,150 @@
+
+<footer data-section-id="{{ section.id }}" data-section-type="header-section" class="site-footer clearfix">
+  {% include 'footer-2' %}
+</footer>
+
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Footer Newleter"
+	},
+	{
+      "type": "checkbox",
+      "id": "enable_newsletter",
+      "label": "Enable Newsletter?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Need Help?"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtext",
+      "default": "SUPPORT TEAM 24/7 AT (844) 555-8386"
+    },
+    {
+      "type": "header",
+      "content": "Footer Column 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_co1_enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+
+    },
+    {
+      "type": "header",
+      "content": "Footer Column 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_co2_enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "footer_title_2",
+      "label": "Column 2 Title",
+      "default": "Customer Care"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_linklist_2",
+      "label": "Footer Column 2"
+    },
+    {
+      "type": "header",
+      "content": "Footer Column 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_co3_enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "footer_title_3",
+      "label": "Column 3 Title",
+      "default": "Other"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_linklist_3",
+      "label": "Footer Column 3"
+    },
+    {
+      "type": "header",
+      "content": "Footer Column 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_co4_enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "footer_title_4",
+      "label": "Column 4 Title",
+      "placeholder": "Follow"
+    },
+	{
+      "type": "link_list",
+      "id": "footer_linklist_4",
+      "label": "Footer Column 4"
+    },
+    {
+      "type": "header",
+      "content": "Footer Column 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_co5_enable",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "footer_title_5",
+      "label": "Column 4 Title",
+      "placeholder": "Newsletter"
+    },
+	{
+      "type": "textarea",
+      "id": "footer_textarea_5",
+      "label": "Newsletter description"
+    },
+    {
+      "type": "header",
+      "content": "Footer Bottom"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_textarea_6",
+      "label": "Footer Bottom Descrition"
+    },
+    {
+      "type": "text",
+      "id": "footer_text_6",
+      "label": "Tel"
+    }
+  ]
+}
+{% endschema %}
+

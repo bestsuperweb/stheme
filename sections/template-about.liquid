@@ -1,0 +1,383 @@
+<div class="container page-about">
+	<h2 class="page-title">{{ page.title }}</h2>
+	<div class="row">
+		<div class="col-md-9 welcome-about-us">
+			{% if section.settings.about_title != blank %}
+			<div class="title-about-us">
+				<h2>{{ section.settings.about_title }}</h2>
+			</div>
+			{% endif %}
+			<div class="content-about-us">
+				{% if section.settings.about_text_desc != blank %}
+				<div class="image-about-us">
+				  <img class="img-respon" alt="{{ section.settings.about_image.alt | default: shop.name }}" src="{{ section.settings.about_image | img_url: 'master' }}" />
+				</div>
+				{% endif %}
+				{% if section.settings.about_text_desc != blank %}
+				<div class="des-about-us">
+					{{ section.settings.about_text_desc }}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-md-3 why-choose-us">
+			{% if section.settings.choose_title != blank %}
+			<div class="title-about-us">
+			<h2>{{ section.settings.choose_title }}</h2>
+			</div>
+			{% endif %}
+			<div class="content-why">
+			<ul class="why-list">
+				{% if section.settings.why_list_1 != blank %}
+				<li><a title="Shipping &amp; Returns" href="#">{{ section.settings.why_list_1 }}</a></li>
+				{% endif %}
+				{% if section.settings.why_list_2 != blank %}
+				<li><a title="Secure Shopping" href="#">{{ section.settings.why_list_2 }}</a></li>
+				{% endif %}
+				{% if section.settings.why_list_3 != blank %}
+				<li><a title="International Shipping" href="#">{{ section.settings.why_list_3 }}</a></li>
+				{% endif %}
+				{% if section.settings.why_list_4 != blank %}
+				<li><a title="Affiliates" href="#">{{ section.settings.why_list_4 }}</a></li>
+				{% endif %}
+				{% if section.settings.why_list_5 != blank %}
+				<li><a title="Group Sales" href="#">{{ section.settings.why_list_5 }}</a></li>
+				{% endif %}
+			</ul>
+			</div>
+		</div>
+		
+	</div>
+	<div class="our-member">
+		{% if section.settings.member_title != blank %}
+			<div class="title-about-us">
+			<h2>{{ section.settings.member_title }}</h2>
+			</div>
+		{% endif %}
+
+		{% if section.settings.our_text_desc != blank %}
+		<div class="dshort-des">
+			{{ section.settings.our_text_desc }}
+		</div>
+		{% endif %}
+		<div class="flex-row">
+			<div class="col-md-3 col-sm-3 col-xxs-6">
+				<div class="item-inner">
+					<div class="w-image-box">
+						{% if section.settings.our_image_1 != blank %}
+						<div class="item-image">
+							<a title="Jennifer lawrence" href="#">
+							<img class="img-respon" alt="{{ section.settings.our_image_1.alt | default: shop.name }}" src="{{ section.settings.our_image_1 | img_url: 'master' }}" />
+							</a>
+						</div>
+						{% endif %}
+						<a class="cl-nw cl-facebook" title="Facebook" href="#">Facebook</a> 
+						<a class="cl-nw cl-flickr" title="Flickr" href="#">Flickr</a> 
+						<a class="cl-nw cl-twitter" title="Twitter" href="#">Twitter</a>
+					</div>
+					<div class="info-member">
+						{% if section.settings.cl_name_1 != blank %}
+						<h2 class="cl-name"><a title="Jennifer lawrence" href="#">{{ section.settings.cl_name_1 }}</a></h2>
+						{% endif %}
+						{% if section.settings.cl_job_1 != blank %}
+						<p class="cl-job">{{ section.settings.cl_job_1 }}Tech Leader</p>
+						{% endif %}
+						{% if section.settings.cl_des_1 != blank %}
+						<p class="cl-des">{{ section.settings.cl_des_1 }}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xxs-6">
+				<div class="item-inner">
+					<div class="w-image-box">
+						{% if section.settings.our_image_2 != blank %}
+						<div class="item-image">
+							<a title="Jennifer lawrence" href="#">
+							<img class="img-respon" alt="{{ section.settings.our_image_2.alt | default: shop.name }}" src="{{ section.settings.our_image_2 | img_url: 'master' }}" />
+							</a>
+						</div>
+						{% endif %}
+						<a class="cl-nw cl-facebook" title="Facebook" href="#">Facebook</a> 
+						<a class="cl-nw cl-flickr" title="Flickr" href="#">Flickr</a> 
+						<a class="cl-nw cl-twitter" title="Twitter" href="#">Twitter</a>
+					</div>
+					<div class="info-member">
+						{% if section.settings.cl_name_2 != blank %}
+						<h2 class="cl-name"><a title="Jennifer lawrence" href="#">{{ section.settings.cl_name_2 }}</a></h2>
+						{% endif %}
+						{% if section.settings.cl_job_2 != blank %}
+						<p class="cl-job">{{ section.settings.cl_job_1 }}Tech Leader</p>
+						{% endif %}
+						{% if section.settings.cl_des_2 != blank %}
+						<p class="cl-des">{{ section.settings.cl_des_1 }}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xxs-6">
+				<div class="item-inner">
+					<div class="w-image-box">
+						{% if section.settings.our_image_3 != blank %}
+						<div class="item-image">
+							<a title="Jennifer lawrence" href="#">
+							<img class="img-respon" alt="{{ section.settings.our_image_3.alt | default: shop.name }}" src="{{ section.settings.our_image_3 | img_url: 'master' }}" />
+							</a>
+						</div>
+						{% endif %}
+						<a class="cl-nw cl-facebook" title="Facebook" href="#">Facebook</a> 
+						<a class="cl-nw cl-flickr" title="Flickr" href="#">Flickr</a> 
+						<a class="cl-nw cl-twitter" title="Twitter" href="#">Twitter</a>
+					</div>
+					<div class="info-member">
+						{% if section.settings.cl_name_3 != blank %}
+						<h2 class="cl-name"><a title="Jennifer lawrence" href="#">{{ section.settings.cl_name_3 }}</a></h2>
+						{% endif %}
+						{% if section.settings.cl_job_3 != blank %}
+						<p class="cl-job">{{ section.settings.cl_job_3 }}Tech Leader</p>
+						{% endif %}
+						{% if section.settings.cl_des_3 != blank %}
+						<p class="cl-des">{{ section.settings.cl_des_3 }}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xxs-6">
+				<div class="item-inner">
+					<div class="w-image-box">
+						{% if section.settings.our_image_4 != blank %}
+						<div class="item-image">
+							<a title="Jennifer lawrence" href="#">
+							<img class="img-respon" alt="{{ section.settings.our_image_1.alt | default: shop.name }}" src="{{ section.settings.our_image_4 | img_url: 'master' }}" />
+							</a>
+						</div>
+						{% endif %}
+						<a class="cl-nw cl-facebook" title="Facebook" href="#">Facebook</a> 
+						<a class="cl-nw cl-flickr" title="Flickr" href="#">Flickr</a> 
+						<a class="cl-nw cl-twitter" title="Twitter" href="#">Twitter</a>
+					</div>
+					<div class="info-member">
+						{% if section.settings.cl_name_4 != blank %}
+						<h2 class="cl-name"><a title="Jennifer lawrence" href="#">{{ section.settings.cl_name_4 }}</a></h2>
+						{% endif %}
+						{% if section.settings.cl_job_4 != blank %}
+						<p class="cl-job">{{ section.settings.cl_job_4 }}Tech Leader</p>
+						{% endif %}
+						{% if section.settings.cl_des_4 != blank %}
+						<p class="cl-des">{{ section.settings.cl_des_4 }}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="happy-about-us">
+      <div class="happy-ab">
+		{% if section.settings.happy_title != blank %}
+		<div class="title-happy-about">
+			<h2>{{ section.settings.happy_title }}</h2>
+		</div>
+		{% endif %}
+		<div class="ct-why">
+          {% if section.settings.happy_text_desc != blank %}
+          <div class="client-say">
+              {{ section.settings.happy_text_desc }}
+          </div>
+          {% endif %}
+          <p class="client-info-about">{{ section.settings.happy_name }}</p>
+		</div>
+      </div>
+	</div>
+</div>
+
+{% schema %}
+    {
+    "name": "About Us Page",
+    "settings": [
+		{
+		   "type": "header",
+		   "content": "About Us Info"
+		},
+		{
+			"type": "text",
+			"id": "about_title",
+			"label": "Title About",
+			"default": "Welcome To Shop"
+		},
+		{
+			"type": "image_picker",
+			"id": "about_image",
+			"label": "About Image"
+		},
+		{
+			"type": "textarea",
+			"id": "about_text_desc",
+			"label": "About Text Description"
+		},
+		{
+		   "type": "header",
+		   "content": "About Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "choose_title",
+			"label": "Title Choose",
+			"default": "Why Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "why_list_1",
+			"label": "Why List 1",
+			"default": "Why Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "why_list_2",
+			"label": "Why List 2",
+			"default": "Why Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "why_list_3",
+			"label": "Why List 3",
+			"default": "Why Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "why_list_4",
+			"label": "Why List 4",
+			"default": "Why Choose Us"
+		},
+		{
+			"type": "text",
+			"id": "why_list_5",
+			"label": "Why List 5",
+			"default": "Why Choose Us"
+		},
+		{
+		   "type": "header",
+		   "content": "Out Member"
+		},
+		{
+			"type": "text",
+			"id": "member_title",
+			"label": "Title Our Member",
+			"default": "Our Member"
+		},
+		{
+			"type": "textarea",
+			"id": "our_text_desc",
+			"label": "Our Text Description"
+		},
+		{
+			"type": "image_picker",
+			"id": "our_image_1",
+			"label": "Our Image 1"
+		},
+		{
+			"type": "text",
+			"id": "cl_name_1",
+			"label": "CL Name",
+			"default": "Jennifer lawrence"
+		},
+		{
+			"type": "text",
+			"id": "cl_job_1",
+			"label": "CL Job",
+			"default": "Tech Leader"
+		},
+		{
+			"type": "text",
+			"id": "cl_des_1",
+			"label": "CL Description"
+		},
+		{
+			"type": "image_picker",
+			"id": "our_image_2",
+			"label": "Our Image 2"
+		},
+		{
+			"type": "text",
+			"id": "cl_name_2",
+			"label": "CL Name",
+			"default": "Jennifer lawrence"
+		},
+		{
+			"type": "text",
+			"id": "cl_job_2",
+			"label": "CL Job",
+			"default": "Tech Leader"
+		},
+		{
+			"type": "text",
+			"id": "cl_des_2",
+			"label": "CL Description"
+		},
+		{
+			"type": "image_picker",
+			"id": "our_image_3",
+			"label": "Our Image 3"
+		},
+		{
+			"type": "text",
+			"id": "cl_name_3",
+			"label": "CL Name",
+			"default": "Jennifer lawrence"
+		},
+		{
+			"type": "text",
+			"id": "cl_job_3",
+			"label": "CL Job",
+			"default": "Tech Leader"
+		},
+		{
+			"type": "text",
+			"id": "cl_des_3",
+			"label": "CL Description"
+		},
+		{
+			"type": "image_picker",
+			"id": "our_image_4",
+			"label": "Our Image 4"
+		},
+		{
+			"type": "text",
+			"id": "cl_name_4",
+			"label": "CL Name",
+			"default": "Jennifer lawrence"
+		},
+		{
+			"type": "text",
+			"id": "cl_job_4",
+			"label": "CL Job",
+			"default": "Tech Leader"
+		},
+		{
+			"type": "text",
+			"id": "cl_des_4",
+			"label": "CL Description"
+		},
+		{
+		   "type": "header",
+		   "content": "Happy About"
+		},
+		{
+			"type": "text",
+			"id": "happy_title",
+			"label": "Title Happy About",
+			"default": "Happy customer says"
+		},
+		{
+			"type": "textarea",
+			"id": "happy_text_desc",
+			"label": "Happy Text Description"
+		},
+		{
+			"type": "text",
+			"id": "happy_name",
+			"label": "Name Happy About"
+		}
+    ]
+  }
+{% endschema %}

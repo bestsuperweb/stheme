@@ -1,0 +1,260 @@
+{% if section.settings.limit_blog != blank %}
+  {% assign limit_blogs = section.settings.limit_blog %}
+{% else %}
+  {% assign limit_blogs = 3 %}
+{% endif %}
+
+
+{% paginate blog.articles by limit_blogs %}
+
+<div class="blog-title">
+  {% if blog.tags.size > 0 %}
+  <select id="BlogTagFilter" class="hidden">
+    <option value="/blogs/{{ blog.handle }}">{{ 'blogs.article.all_topics' | t }}</option>
+    {% for tag in blog.all_tags %}
+    <option value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+    {% endfor %}
+  </select>
+  {% endif %}
+</div>
+
+
+<div class="blog-views">
+  {% assign blog_grid = 12 | divided_by: section.settings.grid_per %}
+  {% if section.settings.layout == 'grid' %}
+  <div class="blogs blog-grid {% if section.settings.layout == 'grid' %}flex-row{% endif %} ">
+    {% for article in blog.articles %}
+    <div class="blog-item col-sm-{{ blog_grid }}">
+      {% if article.image %}
+      <a href="{{ article.url }}" class="article-image">
+        {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+      </a>
+      {% endif %}
+
+      <div class="article__grid-meta{% if article.image %} article__grid-meta--has-image{% endif %}">
+        <h2 class="article-title h3">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h2>
+
+        {% if section.settings.blog_show_author %}
+        <span class="article-author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+        {% endif %}
+
+        {% if section.settings.blog_show_date %}
+        <span class="article-date">
+          {{ article.published_at | time_tag: format: 'month_day_year' }}
+        </span>
+        {% endif %}
+
+        <div class="rte des-blogs">
+          {% if article.excerpt.size > 0 %}
+          {{ article.excerpt }}
+          {% else %}
+          {{ article.content | strip_html | truncate: 70 }}
+          {% endif %}
+        </div>
+
+        {% if article.tags.size > 0 %}
+        <div class="article__tags rte hidden">
+          {% for tag in article.tags %}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="info-read">
+          <div class="pull-left">
+            <a href="{{ article.url }}" class="btn btn-default btn-blog">
+              {{ 'blogs.article.read_more' | t }}
+            </a>
+          </div>
+
+          {% if blog.comments_enabled? and article.comments_count > 0 %}
+          <div>
+            <a href="{{ article.url }}#comments" class="btn btn-default btn-blog">
+              {{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="blogs blog-list">
+    {% for article in blog.articles %}
+    <div class="blog-item clearfix">
+      <div class="article-listing">
+        
+        {% if article.image %}
+        <div class="image-blogs">
+          <a href="{{ article.url }}">
+            {{ article | img_url: '455x300', scale: 2 | img_tag: article.title, 'article__list-image' }}
+          </a>
+        </div>
+        {% endif %}        
+        
+		<div class="blog-detail">
+          
+          <h2 class="article-title h3"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+
+
+          {% if section.settings.blog_show_date %}
+          <span class="article-date">
+            <i class="fa fa-calendar"></i> {{ article.published_at | time_tag: format: 'month_day_year' }}
+          </span>
+          {% endif %}
+
+          <div class="rte des-blogs">
+            {% if article.excerpt.size > 0 %}
+            {{ article.excerpt }}
+            {% else %}
+            {{ article.content | strip_html | truncate: 200 }}
+            {% endif %}
+          </div>
+
+          {% if article.tags.size > 0 %}
+          <div class="article__tags article__tags--list rte">
+            {{ 'blogs.article.posted_in' | t }}
+            {% for tag in article.tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        <div class="list--inline article__meta-buttons info-read">
+            {% if article.excerpt.size > 0 %}
+            <div clas="pull-left">
+              <a href="{{ article.url }}" class="btn btn-default btn-blog">
+                {{ 'blogs.article.read_more' | t }}
+              </a>
+            </div>
+            {% endif %}
+			
+          	<ul class="post-sub">
+             
+                {% if blog.comments_enabled? %}
+                  <li>
+                    <a href="{{ article.url }}#comments">
+                      {{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+                    </a>
+                  </li>
+               {% endif %}
+                {% if section.settings.blog_show_author %}
+              		<li><span class="article-author">{{ 'blogs.article.by_author' | t: author: article.author }}</span></li>
+                {% endif %}              
+            </ul>
+
+            </div>                 
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if paginate.pages > 1 %}
+    {% include 'pagination' %}
+  {% endif %}
+</div>
+
+{% endpaginate %}
+{% schema %}
+{
+  "name": "Blogs Pages",
+  "class": "col-xs-12 col-sm-8 col-md-9 col-main",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "list",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "list",
+          "label": "List"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "limit_blog",
+      "label": "Blog post per page",
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "grid_per",
+      "label": "Blog post per row (grid only)",
+      "default": "2",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Blogs Text"
+    },
+    {
+      "type":      "range",
+      "id":        "font_size_title",
+      "min":       12,
+      "max":        18,
+      "step":       1,
+      "unit":       "px",
+      "label":     "Font size Title Blogs",
+      "default":   15
+    },
+    {
+      "type": "color",
+      "id": "text_blog",
+      "label": "Title Blogs Color",
+      "default": "#444"
+    },
+    {
+      "type": "color",
+      "id": "text_des_blog",
+      "label": "Des Text Color",
+      "default": "#666"
+    }
+  ]
+}
+{% endschema %}
+
+<style> 
+  .article-title.h3 a{
+    font-size: {{ section.settings.font_size_title }}px;
+      color: {{ section.settings.text_blog }};
+  }
+  .des-blogs{
+    color: {{ section.settings.text_des_blog }};
+  }
+
+</style> 

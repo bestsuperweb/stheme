@@ -1,0 +1,211 @@
+<div class="home-collection banners">
+  <div class="container">
+    {% if section.settings.title1 != blank %}
+    <div class="home-title"><h2>{{ section.settings.title1 }}</h2></div>
+    {% endif %}
+    <div class="row">
+      <div class="banner-left xl col-sm-6">
+        <div class="banner-home lef-banner banner-image">           <a href="{{ section.settings.link1 }}">
+
+          {% if section.settings.image1 != blank %}
+          <img class="img-responsive" alt="{{ section.settings.image1.alt | default: shop.name }}" src="{{ section.settings.image1 | img_url: 'master' }}" />
+          {% else %}
+          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/570x338" />
+          {% endif %}</a>
+          <div class="content-banner">
+            <div class="text-banner">
+              {{ section.settings.banner11 }}
+            </div>
+            <a class="main-button" href="{{ section.settings.link11 }}"><span>{{ section.settings.banner1 }}</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-right xl col-sm-6">
+        <div class="banner-home lef-banner banner-image"><a href="{{ section.settings.link2 }}"> 
+          {% if section.settings.image2 != blank %}
+          <img class="img-responsive" alt="{{ section.settings.image2.alt | default: shop.name }}" src="{{ section.settings.image2 | img_url: 'master' }}" />
+          {% else %}
+          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/570x338" />
+          {% endif %}</a>
+          <div class="content-banner">
+            <div class="text-banner">
+              {{ section.settings.banner22 }}
+            </div>
+            <a class="main-button" href="{{ section.settings.link22 }}"><span>{{ section.settings.banner2 }}</span></a>
+          </div>
+        </div>
+      </div>    
+
+      <div class="banner-left xs col-sm-4">
+        <div class="banner-home lef-banner banner-image"><a href="{{ section.settings.link3 }}">
+          {% if section.settings.image3 != blank %} 
+          <img class="img-responsive" alt="{{ section.settings.image3.alt | default: shop.name }}" src="{{ section.settings.image3 | img_url: 'master' }}" />
+          {% else %}
+          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/370x220" />
+          {% endif %}</a>
+          <div class="content-banner">
+            <div class="text-banner">
+              {{ section.settings.banner33 }}
+            </div>
+            <a class="main-button" href="{{ section.settings.link33 }}"><span>{{ section.settings.banner3 }}</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-center xs col-sm-4">
+        <div class="banner-home lef-banner banner-image">
+          <a href="{{ section.settings.link3 }}">
+            {% if section.settings.image4 != blank %}
+            <img class="img-responsive" alt="{{ section.settings.image3.alt | default: shop.name }}" src="{{ section.settings.image4 | img_url: 'master' }}" />
+            {% else %}
+            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/370x220" />
+            {% endif %}
+          </a>
+          <div class="content-banner">
+            <div class="text-banner">
+              {{ section.settings.banner44 }}
+            </div>
+            <a class="main-button" href="{{ section.settings.link44 }}"><span>{{ section.settings.banner4 }}</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-right xs col-sm-4">
+        <div class="banner-home lef-banner banner-image"><a href="{{ section.settings.link5 }}">
+          {% if section.settings.image5 != blank %} 
+          <img class="img-responsive" alt="{{ section.settings.image5.alt | default: shop.name }}" src="{{ section.settings.image5 | img_url: 'master' }}" />
+          {% else %}
+          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/370x220" />
+          {% endif %}</a>
+          <div class="content-banner">
+            <div class="text-banner">
+              {{ section.settings.banner55 }}
+            </div>
+            <a class="main-button" href="{{ section.settings.link55 }}"><span>{{ section.settings.banner5 }}</span></a>
+          </div>
+        </div>
+      </div>  
+
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Home Page Categories",
+  "class": "home-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Setting Banner "
+    },
+		{
+            "type": "text",
+            "id": "title1",
+            "label": "Title",
+            "placeholder": "Title of section"
+        },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Banner image1"
+    },
+	{
+      "type": "textarea",
+      "id": "banner11",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link1",
+      "info": "Image link1"
+    },{
+      "type": "text",
+      "id": "banner1",
+      "label": "Button content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Banner image2"
+    },{
+      "type": "textarea",
+      "id": "banner22",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link2",
+      "info": "Image link2"
+    },{
+      "type": "text",
+      "id": "banner2",
+      "label": "Button content"
+    },{
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Banner image3"
+    },
+	{
+      "type": "textarea",
+      "id": "banner33",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link3",
+      "info": "Image link3"
+    },{
+      "type": "text",
+      "id": "banner3",
+      "label": "Button content"
+    },{
+      "type": "image_picker",
+      "id": "image4",
+      "label": "Banner image4"
+    },
+	{
+      "type": "textarea",
+      "id": "banner44",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link4",
+      "info": "Image link4"
+    },{
+      "type": "text",
+      "id": "banner4",
+      "label": "Button conten4"
+    },{
+      "type": "image_picker",
+      "id": "image5",
+      "label": "Banner image5"
+    },
+	{
+      "type": "textarea",
+      "id": "banner55",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link5",
+      "info": "Image link5"
+    },{
+      "type": "text",
+      "id": "banner5",
+      "label": "Button content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Collection",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

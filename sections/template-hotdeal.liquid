@@ -1,0 +1,131 @@
+{% assign limit_product = section.settings.limit_product %}
+<div class="page-hotdeal">
+  <div class="container">
+    <div class="deal-image">
+      {% if section.settings.display_image_cat %}
+      <p>
+        {% if section.settings.img_cat != blank %}
+        <img src="{{ section.settings.img_cat | img_url :"master"}}" alt="{{ collection.title | split: '|' | first }}" />
+       {% else %}
+          {% capture current %}{% cycle 2%}{% endcapture %}
+          {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+         {% endif %}
+      </p>
+    {% endif %}
+    </div>
+    <div class="wrap ss-owl">
+      <div id="filters" class="button-group ss-owl owl-carousel" 
+           data-nav="false"  
+           data-margin		="10"
+           data-column1	="6" 
+           data-column2	="5" 
+           data-column3	="4" 
+           data-column4	="2" 
+           data-column5	="1">
+        <button class="button is-checked" data-filter="*">
+          <span>{{ 'custom.deal.show_all' | t }}</span>
+        	{% if section.settings.image_all != blank %}
+          <img class="ico-deal img-responsive" alt="{{ shop.name }}" src="{{ section.settings.image_all | img_url:'master' }}" />
+          {% else %}
+          <a href="#" title="{{ shop.name }}">
+            <img class="ico-deal img-responsive" alt="{{ shop.name }}" src="//placehold.it/70x38" />
+          </a>
+          {% endif %}
+        </button>
+        {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'hotdeal' %}  
+        {% assign collect =  collections[block.settings.collection] %}
+        {% if collect != blank %}
+        <button class="button" data-filter=".{{ collect.handle }}">
+          <span>{{ collect.title }}</span>
+          {% if block.settings.image1 != blank %}
+          <img class="ico-deal img-responsive" alt="{{ block.settings.image1.alt | default: shop.name }}" src="{{ block.settings.image1 | img_url:'master' }}" />
+          {% else %}
+          <a href="#" title="{{ shop.name }}">
+            <img class="ico-deal img-responsive" alt="{{ shop.name }}" src="//placehold.it/70x38" />
+          </a>
+          {% endif %}
+        </button>
+        {% endif %}
+        {% endcase %}
+        {% endfor %}  						
+      </div>
+   
+      <div class="products-listing grid row deals-grid">
+        <div class="product-layout">
+          {% for product in collections['all'].products %}                          
+            {% for tag in product.tags %} 
+              {% if tag contains "deal" %}
+              <div class="col-md-3 col-sm-4 col-xxs-6 product element-item transition {% for collection in product.collections %}{{ collection.handle }} {% endfor %}" data-category="{% for collection in product.collections %}{% if forloop.first %}{{ collection.handle }}{% endif %}{% endfor %}">
+                {% include 'product-deal' %}
+              </div>                            
+              {% endif %} 
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+     
+    </div>
+  </div>
+
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "Hotdeal Page",
+    "settings": [
+      {
+      "type": "header",
+      "content": "Setting Hot deal page"
+      },
+		{
+        "type": "checkbox",
+        "id": "display_image_cat",
+        "label": "Display Image Category?",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "img_cat",
+        "label": "Image Category"
+      },
+	  {
+        "type": "text",
+        "id": "limit_product",
+        "label": "Product items per page",
+        "default": "12"
+      },
+		
+	  {
+      "type": "header",
+      "content": "Tab Show All"
+      },
+{
+          "type": "image_picker",
+          "id": "image_all",
+          "label": "Icon Show All"
+        }
+    ],
+    "blocks": [
+      {
+        "type": "hotdeal",
+        "name": "Select collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection use:"
+          },
+		{
+          "type": "image_picker",
+          "id": "image1",
+          "label": "Icon Tab Deals"
+        }
+        ]
+      }
+    ]
+  }
+{% endschema %}
