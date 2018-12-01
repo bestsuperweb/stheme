@@ -2,15 +2,12 @@
 The contents of the product.liquid template can be found in /sections/product-template.liquid
 {% endcomment %}
 
-{% include 'breadcrumb' %}
-<!-- <div class="container">
-  <div class="row">
-    {% section 'product-sidebar' %}
-    {% section 'product-template' %}
-  </div>
-</div> -->
+{% assign current_variant 			= product.selected_or_first_available_variant 	%}
+{% assign product_thumb_size 		= '110x110' %}
+{% assign product_image_zoom_size 	= '1024x1024' %}
+{% assign product_image_scale 		= '2' -%}
 
-<div class="container-fluid">
+<div class="container-fluid" id="product-page">
 	{% section 'product-main' %}
 	{% section 'product-bottom' %}
 </div>
