@@ -1,49 +1,92 @@
-<div class="row">
-	<div class="col-sm-1"></div>
-	<div class="col-sm-2">
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>	
-	</div>
-	<div class="col-sm-2">
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>	
-	</div>
-	<div class="col-sm-2">
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>	
-	</div>
-	<div class="col-sm-2">
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>
-		<div class="product-bottom-buton">
-			<span class="product-bottom-con"></span>
-			<span>SAVE TO LIST</span>
-		</div>	
-	</div>
-	<div class="col-sm-2">
-		<div>
-			{{ current_variant.price | money }} BUY NOW
-		</div>
-	</div>
-	<div class="col-sm-1"></div>
+{% assign current_variant 			= product.selected_or_first_available_variant 	%}
+{% assign product_thumb_size 		= '110x110' %}
+{% assign product_image_zoom_size 	= '1024x1024' %}
+{% assign product_image_scale 		= '2' -%}
+
+<div class="container-fluid">
+
+	<div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2">
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+          </span>
+          <span>SAVE TO LIST</span>
+        </div>
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-heart-o" aria-hidden="true"></i>
+          </span>
+          <span>FAVORITE</span>
+        </div>	
+      </div>
+      <div class="col-sm-2">
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+          </span>
+          <span>LIKE THIS MAT</span>
+        </div>
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+          </span>
+          <span>DON'T LIKE THIS MAT</span>
+        </div>	
+      </div>
+      <div class="col-sm-2">
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+          </span>
+          <span>PRODUCT REVIEW</span>
+        </div>
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </span>
+          <span>SHARE THIS MAT</span>
+        </div>	
+      </div>
+      <div class="col-sm-2">
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </span>
+          <span>DESIGN YOUR OWN</span>
+        </div>
+        <div class="product-bottom-buton">
+          <span class="product-bottom-con">
+            <i class="fa fa-bolt" aria-hidden="true"></i>
+          </span>
+          <span>FIND A MAT</span>
+        </div>	
+      </div>
+      <div class="col-sm-2">
+        <form action="/cart/add" method="post" enctype="multipart/form-data" style="margin-top: -6px;" >
+            <input type="text" id="qty" name="quantity" value="1" min="1" style="display: none;" > 
+            <select name="id" style="display: none;">
+              {% for variant in product.variants %}
+              {% if variant.available %}
+              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                {{ variant.title }}
+              </option>
+              {% else %}
+              <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+            <button type="submit" name="add" style="border: 2px solid; background: transparent; padding: 3px;" >
+              <div class="row" >
+                <div class="col-xs-7"><h1 style="font-size: 40px;">{{ current_variant.price | money }}</h1></div>
+                <div class="col-xs-5"><h2>BUY NOW</h2></div>
+              </div>
+            </button>
+        </form>
+        
+      </div>
+      <div class="col-sm-1"></div>
+  </div>
+	
 </div>
