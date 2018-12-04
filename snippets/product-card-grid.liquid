@@ -28,7 +28,7 @@
     </div>
     <div class="left-block">
       <div class="product-image-container product-image">
-        <a class="grid-view-item__link image-ajax" href="{{ product.url | within: collection }}" style="display: flex; justify-content: center;">
+        <a class="grid-view-item__link image-ajax" href="{{ product.url | within: collection }}" style="justify-content: center;">
           <img class="img-responsive" src="{{ product.featured_image.src | product_img_url:image_size }}" alt="{{ product.featured_image.alt }}" style="" />
 
           {% if product.images.size > 1 and settings.second_image %}
