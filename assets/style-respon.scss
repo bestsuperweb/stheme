@@ -878,6 +878,17 @@
       overflow: hidden; 
     }
   }
+  
+  div.find-mat{
+    margin-top: 0;
+    div.find-mat-wrap{
+      margin: 30px 10px;
+      border-width: 5px;
+      h1{
+        font-size: 30px;
+      }
+    }    
+  }
 }
 @media (min-width: 479px) and (max-width: 767px) {
   /*   Home */
