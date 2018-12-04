@@ -232,7 +232,7 @@ Based on FrameWork v1.0.0 | SN License |
 
       &:hover{background: $main-color;}
       &.owl-prev{
-        background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/next-prev-detail.png?12194308124260757102) no-repeat;
+        background: url({{ 'next-prev-detail.png' | asset_url }}) no-repeat;
         background-position: -36px 0px;
         left: -14px;
         float: left;
@@ -245,7 +245,7 @@ Based on FrameWork v1.0.0 | SN License |
         }
       }
       &.owl-next{
-        background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/next-prev-detail.png?12194308124260757102) no-repeat;
+        background: url({{ 'next-prev-detail.png' | asset_url }}) no-repeat;
         background-position: -71px 0px;
         right: -14px;
         float: right;
@@ -281,13 +281,13 @@ Based on FrameWork v1.0.0 | SN License |
         display: none;
       }
       &:hover{
-        background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-slider.png?12194308124260757102);
+        background-image: url({{ 'ico-slider.png' | asset_url }});
         border-color: $main-color;
         background-color: $main-color;
       }
     }
     div.owl-prev{
-      background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-slider.png?12194308124260757102);
+      background-image: url({{ 'ico-slider.png' | asset_url }});
       background-repeat: no-repeat;
       background-color: #fff;
       display: inline-block;
@@ -301,7 +301,7 @@ Based on FrameWork v1.0.0 | SN License |
 
     }
     div.owl-next{
-      background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-slider.png?12194308124260757102);
+      background-image: url({{ 'ico-slider.png' | asset_url }});
       background-repeat: no-repeat;
       background-color: #fff;
       display: inline-block;
@@ -319,17 +319,17 @@ Based on FrameWork v1.0.0 | SN License |
 
 /*================ Setting Variables ================*/
 
-$font-family-body:  		Roboto;
-$font-family-heading:  		Open Sans Condensed;
-$font-family-custom:  		Roboto;
-$font-size-body: 			12;
-$font-size-heading: 		16;
-$font-size-custom:			14;
+$font-family-body:  		{{ settings.fonts_body }};
+$font-family-heading:  		{{ settings.fonts_heading }};
+$font-family-custom:  		{{ settings.fonts_custom }};
+$font-size-body: 			{{ settings.body_fontsize }};
+$font-size-heading: 		{{ settings.heading_fontsize }};
+$font-size-custom:			{{ settings.custom_fontsize }};
 
-$main-color: 				#eb7729;
-$link-color:				#464646;
-$body-color:				#142e4e;
-$border-color:				#d5d5d5;
+$main-color: 				{{ settings.color_base }};
+$link-color:				{{ settings.color_link }};
+$body-color:				{{ settings.color_body_text }};
+$border-color:				{{ settings.color_border }};
 
 
 
@@ -465,7 +465,7 @@ $border-color:				#d5d5d5;
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background: url(//cdn.shopify.com/s/assets/no-image-100-c91dd4bdb56513f2cbf4fc15436ca35e9d4ecd014546c8d421b1aece861dfecf_small.gif) 50% 50% no-repeat;
+  background: url({{ settings.img_loading | img_url: 'marter' }}) 50% 50% no-repeat;
 }
 .ov{
   overflow: hidden; 
@@ -594,7 +594,7 @@ $border-color:				#d5d5d5;
       &.mode-grid{
         margin-right: 5px;
         background-color:transparent; 
-        background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/grid.png?12194308124260757102);
+        background-image: url({{ 'grid.png' | asset_url }});
         background-repeat: no-repeat;
         background-position: left top; 
         margin-right: 15px;
@@ -604,7 +604,7 @@ $border-color:				#d5d5d5;
       }
       &.mode-list{
         background-color:transparent; 
-        background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/list.png?12194308124260757102);
+        background-image: url({{ 'list.png' | asset_url }});
         background-repeat: no-repeat;
         background-position: left top; 
         &.active {
@@ -1401,10 +1401,10 @@ h2.page-title{
           cursor: pointer;
 
           &.reduced{
-            background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/minus.png?12194308124260757102) no-repeat center center;
+            background: url({{ 'minus.png' | asset_url }}) no-repeat center center;
           }
           &.increase{
-            background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/plus.png?12194308124260757102) no-repeat center center;
+            background: url({{ 'plus.png' | asset_url }}) no-repeat center center;
           }
         }
       }
@@ -2212,13 +2212,13 @@ h1.page-title{
 /*============================================================================
 =============================== HEADER  ====================================
 ==============================================================================*/
-$bg_header_top: 		#142e4e;
-$color_header_top: 		#d67400;
-$text_msg: 				#777777;
-$bg_header_center: 		#fff;
-$bg_header_bottom: 		#666;
-$color_header_bottom: 	#444;
-$border-header: 		#dddddd;
+$bg_header_top: 		{{ settings.headertop_bgcolor }};
+$color_header_top: 		{{ settings.text_headertop_color }};
+$text_msg: 				{{ settings.label_headertop_color }};
+$bg_header_center: 		{{ settings.headerct_bgcolor }};
+$bg_header_bottom: 		{{ settings.headerbt_bgcolor }};
+$color_header_bottom: 	{{ settings.text_headerbt_color }};
+$border-header: 		{{ settings.border_headertop_color }};
 
 .header{
   .currency-wrapper{
@@ -2456,7 +2456,7 @@ $border-header: 		#dddddd;
               line-height: 36px;
               font-size: 12px;
               &:before {
-                background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-quicklink.png?12194308124260757102);
+                background-image: url({{ 'ico-quicklink.png' | asset_url }});
                 background-repeat: no-repeat;
                 background-position: center top;
                 content: "";
@@ -2937,7 +2937,7 @@ $border-header: 		#dddddd;
               line-height: 33px;
               font-size: 12px;
               &:before {
-                background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-quicklink.png?12194308124260757102);
+                background-image: url({{ 'ico-quicklink.png' | asset_url }});
                 background-repeat: no-repeat;
                 background-position: center top;
                 content: "";
@@ -3601,7 +3601,7 @@ footer{
           display: inline-block;
           width: 30px;
           height: 30px;
-          background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/icon-image.png?12194308124260757102) #969696;
+          background: url({{ 'icon-image.png' | asset_url }}) #969696;
           border-radius: 3px;
           -webkit-border-radius: 3px;
           @include transition(all 200ms ease-in-out); 
@@ -4145,7 +4145,7 @@ footer{
 ==============================================================================*/
 .page-about{
   .title-about-us{
-    background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/bg-title-about.png?12194308124260757102) repeat-x left center;
+    background: url({{ 'bg-title-about.png' | asset_url }}) repeat-x left center;
     margin-bottom: 17px;
     h2 {
       background: #fff;
@@ -4181,12 +4181,12 @@ footer{
       position: absolute;
       left: 0px;
       top: 10px;
-      background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/icon-whylist.png?12194308124260757102) no-repeat top left;
+      background: url({{ 'icon-whylist.png' | asset_url }}) no-repeat top left;
     }
     > a {
       display: block;
       padding: 5px 0 7px;
-      background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/border-bottom-bs.png?12194308124260757102) repeat-x left bottom;
+      background: url({{ 'border-bottom-bs.png' | asset_url }}) repeat-x left bottom;
     }
   }
   .our-member{
@@ -4243,20 +4243,20 @@ footer{
         border-radius: 50px;
         @include transition(all 300ms ease-in-out); 
         &.cl-facebook {
-          background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/cl_facebook.png?12194308124260757102);
+          background-image: url({{ 'cl_facebook.png' | asset_url }});
           margin-left: -42px;
           transition: all 0.3s ease 0.3s;
           -web-kit-transition: all 0.3s ease 0.3s;
           -moz-transition: all 0.3s ease 0.3s;
         }
         &.cl-flickr {
-          background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/cl_flickr.png?12194308124260757102);
+          background-image: url({{ 'cl_flickr.png' | asset_url }});
           transition: all 0.3s ease 0.6s;
           -web-kit-transition: all 0.3s ease 0.6s;
           -moz-transition: all 0.3s ease 0.6s;
         }
         &.cl-twitter {
-          background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/cl_twitter.png?12194308124260757102);
+          background-image: url({{ 'cl_twitter.png' | asset_url }});
           margin-left: 18px;
           transition: all 0.3s ease 0.9s;
           -web-kit-transition: all 0.3s ease 0.9s;
@@ -4318,7 +4318,7 @@ footer{
         position: absolute;
         width: 16px;
         height: 12px;
-        background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/note-client.png?12194308124260757102) no-repeat top left;
+        background: url({{ 'note-client.png' | asset_url }}) no-repeat top left;
         left: 0px;
         top: 6px;
       }
@@ -4605,7 +4605,7 @@ footer{
         width: 100%;
       }
       li.item a.btn-remove {
-        background: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/del-minicart.png?12194308124260757102) no-repeat;
+        background: url({{'del-minicart.png' | asset_url }}) no-repeat;
         width: 17px;
         height: 16px;
       }
@@ -4757,8 +4757,8 @@ footer{
 =============================== Swatches Styles  ====================================
 ==============================================================================*/
 
-
-
+{% assign width = '36px' %}
+{% assign height = '36px' %}
 .swatch { 
   margin:1em 0; 
 }
@@ -4780,8 +4780,8 @@ footer{
 }
 .swatch label {
   float:left;
-  min-width:36px !important; 
-  height:36px !important;
+  min-width:{{ width }} !important; 
+  height:{{ height }} !important;
   margin:0;
   border:#ddd 1px solid;
   /* Background color */
@@ -4841,7 +4841,7 @@ footer{
   display:block;
   position:absolute; 
   width:85px;
-  left:-30px;
+  left:{{ width | remove: 'px' | to_number | divided_by: 2 | minus: 50 | plus: 2 }}px;
   margin-bottom:15px;
   /* Make it invisible by default */
   filter:alpha(opacity=0);
@@ -5067,7 +5067,7 @@ body .filter-tags dt .clear{
 
 div.find-mat{
   background-color: #0D2A4F;
-  margin-top: -70px;
+/*   margin-top: -70px; */
   div.find-mat-wrap{
     margin: 50px;
     padding: 5px;
@@ -5154,6 +5154,7 @@ div.find-mat{
         width: 100%;
         border: 3px solid #0D2A4F;
         font-weight: 600;
+        overflow: hidden;
       }
     }
     .home-collections{
@@ -5233,7 +5234,7 @@ div.find-mat{
 .top-block {
   @include transform(translate(60px, 0, 0, 0));
   @include transition(all 400ms);
-  background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/topbar.png?12194308124260757102);
+  background-image: url({{ 'topbar.png' | asset_url }});
   z-index: 11;
   height: 50px;
   position: absolute;
