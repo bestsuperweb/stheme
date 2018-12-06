@@ -5109,10 +5109,24 @@ $toolbar-height-small: 46px;
         width: 80%;
         text-align: center;
         cursor: pointer;
+        color: #EB7729;
+      }
+      button{
+        background: transparent;
+        border: none;
+        padding: 0;
+        width: 100%;
       }
       .product-bottom-con{
         width: 18%;
       }
+    }
+  	.product-share-div{
+      text-align: center;
+      border: 2px solid;
+      padding: 10px 0;
+      display: none;
+      margin: 5px 0;
     }
   	
 

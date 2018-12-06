@@ -24,6 +24,23 @@
         $(this).parent().children('.home-products').addClass('active');
       }
 	});
+
+	$('.product-bottom-buton.social-share').on('mouseenter', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$(this).slideUp('400', function() {
+			$('.product-share-div').slideDown();	
+		});
+		
+	});
+
+	$('.product-share-div').on('mouseleave', function(event) {
+		/* Act on the event */
+		$(this).slideUp('400', function() {
+			$('.product-bottom-buton.social-share').slideDown();
+		});
+		
+	});
     
   })
 
