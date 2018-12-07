@@ -13,27 +13,27 @@
 }
 /*================ Setting Variables ================*/
 
-$font-family-body:  		Roboto;
-$font-family-heading:  		Open Sans Condensed;
-$font-family-custom:  		Roboto;
-$font-size-body: 			12px;
-$font-size-heading: 		16px;
-$font-size-custom:			14px;
+$font-family-body:  		{{ settings.fonts_body }};
+$font-family-heading:  		{{ settings.fonts_heading }};
+$font-family-custom:  		{{ settings.fonts_custom }};
+$font-size-body: 			{{ settings.body_fontsize }}px;
+$font-size-heading: 		{{ settings.heading_fontsize }}px;
+$font-size-custom:			{{ settings.custom_fontsize }}px;
 
-$main-color: 				#eb7729;
-$link-color:				#464646;
-$body-color:				#142e4e;
-$border-color:				#d5d5d5;
+$main-color: 				{{ settings.color_base }};
+$link-color:				{{ settings.color_link }};
+$body-color:				{{ settings.color_body_text }};
+$border-color:				{{ settings.color_border }};
 
-$btn-bg-color:				#ffffff;
-$btn-border-color:			#d5d5d5;
-$btn-text-color:			#142e4e;
+$btn-bg-color:				{{ settings.color_btnbg }};
+$btn-border-color:			{{ settings.color_btnline }};
+$btn-text-color:			{{ settings.color_btntext }};
 
-$btn-bg-hover:				#d67400;
-$btn-border-hover:			#d5d5d5;
-$btn-text-hover:			#142e4e;
+$btn-bg-hover:				{{ settings.color_btnbg_hover }};
+$btn-border-hover:			{{ settings.color_btnline_hover }};
+$btn-text-hover:			{{ settings.color_btntext_hover }};
 
-$bg-body:					#f0eee9;
+$bg-body:					{{ settings.bg_body_color }};
 $space-block:               40px;
 .wrap-flex{
   -webkit-display: flex;
@@ -97,7 +97,7 @@ $space-block:               40px;
     }
   }
 }
-.template-index{
+.template-index, .template-page{
   .quick-view .owl-nav{
     position: static;
   }
@@ -1862,7 +1862,7 @@ text-transform: uppercase;
     padding-right: 18px;
     padding-top: 1px;
     padding-bottom: 1px;
-    /*     background-image: url(//cdn.shopify.com/s/files/1/0059/8016/0073/t/2/assets/ico-select-small.png?12194308124260757102);
+    /*     background-image: url({{ 'ico-select-small.png' | asset_url }});
     background-color: transparent !important; */
   }
 }

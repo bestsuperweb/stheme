@@ -1,0 +1,82 @@
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			{{ page.content }}
+		</div>
+	</div>
+</div>
+<br><br><br><br>
+
+{% for collection in collections %}
+{% if collection.handle contains page.handle %}
+<div class="widget-product-carousel">  
+
+	<div class="container">
+		<div class="products-listing grid">
+
+			<div class="product-layout block-content">
+				<div class="ss-carousel ss-owl">
+					<div class="owl-carousel" 
+						data-nav		="true" 
+						data-margin		="30"
+						data-autoplay	="false" 
+						data-autospeed	="10000" 
+						data-speed		="300"
+						data-column1	="3" 
+						data-column2	="3" 
+						data-column3	="3" 
+						data-column4	="3" 
+						data-column5	="2">
+						{% for product in collection.products %}
+						{% if row == 2 %}
+						{% assign row_check = forloop.index | modulo:1 %}
+						{% if row_check == 1 %}
+						<div class="item">
+							{% endif %}
+							{% include 'product-card-grid' %}
+							{% if row_check == 0 or forloop.last %}
+						</div>
+						{% endif %}
+						{% else %}
+						<div class="item">
+							{% include 'product-card-grid' %}
+						</div>
+						{% endif %}
+						{% else %}
+						{% for product in (1..limit) %}
+						<div class="grid-item">
+							<div class="grid-view-item no-product">
+								<a href="#" class="grid-view-item__link">
+									<div class="grid-view-item__image" style="padding: 0 15px;">
+										<img src="{{ 'placeholder.png' | asset_url }}" class="img-responsive" style="border: 10px solid #fff; box-shadow: 10px 10px 5px 5px rgba(0,0,0,.3);" />
+									</div>
+								</a>
+							</div>
+						</div>
+						{% endfor %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+			<div class="home-collection-title-ribon-bar container">
+				<div class="col-md-6">
+					<div class="row ribone-badgeg-title">
+						<div class="ribon-badge"><img src="{{ collection.image | img_url: 'master' }}" alt="" /></div>
+						<div class="ribon-title"><a href="{{ collection.url }}">{{ collection.title }}</a></div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="ribon-description hidden-sm hidden-xs">{{ collection.description | truncate: 210 }}</div>
+					</div>
+				</div>
+			</div>          
+		</div>
+	</div>
+</div>
+<br><br>
+{% endif %}
+{% endfor %}
+
+<br><br><br><br>
